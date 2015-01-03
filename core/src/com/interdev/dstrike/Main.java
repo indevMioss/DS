@@ -18,7 +18,7 @@ public class Main extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1); // TROLO LO
+		Gdx.gl.glClearColor(1, 1, 1, 1); // TROLOLO LO
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(img, 0, 0);
