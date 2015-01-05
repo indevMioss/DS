@@ -1,4 +1,4 @@
-package com.interdev.dstrike.clientside;
+package com.interdev.dstrike.networking;
 
 public class Packet {
     public static class Packet0LoginRequest { }
