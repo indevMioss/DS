@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class DSClient {
+    public static int port = 54555;
+    public static String serverIP = "127.0.0.1";
+    public static int connectionTimeout = 5000; //ms
+
     public Client client;
     public Scanner scanner;
 
@@ -22,7 +26,7 @@ public class DSClient {
 
         client.start();
         try {
-            client.connect(5000, "127.0.0.1", 54555);
+            client.connect(connectionTimeout, serverIP, port);
         } catch (IOException e) {
             e.printStackTrace();
             client.stop();
