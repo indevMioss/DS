@@ -25,9 +25,9 @@ public class NetworkListener extends Listener {
 
     public void received(Connection connection, Object obj) {
 
-        if(obj instanceof Packet.Packet1LoginAnswer) {
+        if (obj instanceof Packet.Packet1LoginAnswer) {
             boolean answer = ((Packet.Packet1LoginAnswer) obj).accepted;
-            if(answer) {
+            if (answer) {
                 Packet.Packet2Message mPacket = new Packet.Packet2Message();
                 mPacket.message = "This is the mesage for the server!";
                 client.sendTCP(mPacket);
