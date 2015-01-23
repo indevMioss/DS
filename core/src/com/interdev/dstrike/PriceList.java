@@ -40,9 +40,9 @@ public interface PriceList {
             300
     };
 
-    public boolean purchaseAccept(PriceList p) {
-
-    }
+ //   public boolean purchaseAccept(PriceList p) {
+//
+ //   }
 
 
 

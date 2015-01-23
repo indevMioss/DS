@@ -1,6 +1,7 @@
 package com.interdev.dstrike;
 
 import com.interdev.dstrike.networking.PriceList;
+import com.interdev.dstrike.units.Unit;
 
 import java.util.ArrayList;
 
