@@ -7,7 +7,7 @@ import com.interdev.dstrike.screens.ScreenManager;
 import com.interdev.dstrike.screens.Screens;
 
 public class Main extends Game {
-	
+
 	@Override
 	public void create () {
 		ScreenManager.getInstance().initialize(this);

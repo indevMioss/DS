@@ -1,8 +1,5 @@
 package com.interdev.dstrike;
 
-/**
- * Created by Evg256 on 15.01.2015.
- */
 public interface PriceList {
     public static final short base_upgrade_lvl [] = {
             100,

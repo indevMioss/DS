@@ -1,6 +1,7 @@
 package com.interdev.dstrike.screens;
 
 import com.badlogic.gdx.Screen;
+import com.interdev.dstrike.screens.game.GameScreen;
 
 public enum Screens {
     GAME_MENU {

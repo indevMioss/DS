@@ -1,8 +1,9 @@
-package com.interdev.dstrike.screens;
+package com.interdev.dstrike.screens.game;
 
 import com.badlogic.gdx.Screen;
 
 public class GameScreen implements Screen {
+
     @Override
     public void show() {
 
