@@ -7,6 +7,9 @@ import com.interdev.dstrike.Main;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "..~='DESERT STRIKE'=~..";
+		config.height = 1280;
+		config.width = 720;
 		new LwjglApplication(new Main(), config);
 	}
 }
