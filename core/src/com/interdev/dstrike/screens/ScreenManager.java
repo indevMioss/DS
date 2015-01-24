@@ -3,9 +3,10 @@ package com.interdev.dstrike.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.IntMap;
+import com.esotericsoftware.minlog.Log;
+import com.interdev.dstrike.Main;
 
 public final class ScreenManager {
-
     private static ScreenManager instance;
 
     private Game game;
@@ -31,6 +32,10 @@ public final class ScreenManager {
         if (null == game) return;
         if (!screens.containsKey(screen.ordinal())) {
             screens.put(screen.ordinal(), screen.getScreenInstance());
+        }
+        if(!screen.equals(Screens.GAME)) {
+            Main.gameScreenReference = null;
+            Log.info("Main.gameScreenReference = null");
         }
         game.setScreen(screens.get(screen.ordinal()));
     }

@@ -1,6 +1,7 @@
 package com.interdev.dstrike.screens.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,16 +11,20 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.esotericsoftware.minlog.Log;
+import com.interdev.dstrike.Main;
 import com.interdev.dstrike.screens.game.camera.MultipleVirtualViewportBuilder;
 import com.interdev.dstrike.screens.game.camera.OrthographicCameraWithVirtualViewport;
 import com.interdev.dstrike.screens.game.camera.VirtualViewport;
+import com.interdev.dstrike.screens.game.ui.UI;
 
 public class GameScreen implements Screen, GestureDetector.GestureListener {
 
-    private int virutalWidth;
-    private int virutalHeight;
-    private int totalFieldWidth;
-    private int totalFieldHeight;
+    public Player player;
+    public UI ui;
+    private float virutalWidth;
+    private float virutalHeight;
+    private float totalFieldWidth;
+    private float totalFieldHeight;
 
     private float zoom;
     private float initialZoom = 1f;
@@ -27,27 +32,32 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     private MultipleVirtualViewportBuilder multipleVirtualViewportBuilder;
     private VirtualViewport virtualViewport;
     private OrthographicCameraWithVirtualViewport camera;
+    private InputMultiplexer inputMultiplexer;
 
     private Texture battlefieldBgTexture;
     private Texture personalFieldBgTexture;
-    private Image battlefieldBg;
-    private Image personalFieldBg;
 
     private Stage mainStage;
     private Base myBase, enemyBase;
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new GestureDetector(this));
+        Main.gameScreenReference = this;
+        Log.info("Main.gameScreenReference = this");
+        player = new Player();
+
+        Main.dsClient.sendReadyToPlayPacket();
+
         initTextures();
-        multipleVirtualViewportBuilder = new MultipleVirtualViewportBuilder(640, 1136, 720, 1280);
+
+        multipleVirtualViewportBuilder = new MultipleVirtualViewportBuilder(480, 800, 720, 1280);
         virtualViewport = multipleVirtualViewportBuilder.getVirtualViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera = new OrthographicCameraWithVirtualViewport(virtualViewport);
         virutalWidth = (int) virtualViewport.getVirtualWidth();
         virutalHeight = (int) virtualViewport.getVirtualHeight();
         totalFieldWidth = battlefieldBgTexture.getWidth();
         totalFieldHeight = battlefieldBgTexture.getHeight() + personalFieldBgTexture.getWidth();
-        zoom = (float) totalFieldWidth / virutalWidth;
+        zoom = totalFieldWidth / virutalWidth;
 
         Log.info("virutalWidth " + virutalWidth + "  virutalHeight " + virutalHeight);
         Log.info("totalFieldWidth " + totalFieldWidth + "  totalFieldHeight " + totalFieldHeight);
@@ -57,12 +67,11 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage = new Stage();
         mainStage.getViewport().setCamera(camera);
 
-
-        personalFieldBg = new Image(personalFieldBgTexture);
+        Image personalFieldBg = new Image(personalFieldBgTexture);
         personalFieldBg.setPosition(0, 0);
         mainStage.addActor(personalFieldBg);
 
-        battlefieldBg = new Image(battlefieldBgTexture);
+        Image battlefieldBg = new Image(battlefieldBgTexture);
         battlefieldBg.setPosition(personalFieldBg.getX() + 0, personalFieldBg.getY() + personalFieldBg.getHeight());
         mainStage.addActor(battlefieldBg);
 
@@ -74,6 +83,11 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         enemyBase = new Base();
         enemyBase.setPosition(battlefieldBg.getWidth() / 2, battlefieldBg.getY() + battlefieldBg.getHeight() * 0.94f);
         mainStage.addActor(enemyBase);
+
+        inputMultiplexer = new InputMultiplexer();
+        ui = new UI(virutalWidth, inputMultiplexer);
+        inputMultiplexer.addProcessor(new GestureDetector(this));
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
     }
 
@@ -93,14 +107,15 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage.act(Gdx.graphics.getDeltaTime());
         mainStage.draw();
 
+        ui.draw(Gdx.graphics.getDeltaTime());
 
     }
 
     private void checkCameraBounds() {
         float minCameraX = camera.zoom * (camera.viewportWidth / 2);
         float maxCameraX = totalFieldWidth - minCameraX;
-        float minCameraY = camera.zoom * (camera.viewportHeight / 2);
-        float maxCameraY = totalFieldHeight - minCameraY;
+        float minCameraY = camera.zoom * (camera.viewportHeight / 2 - ui.getScaledHeight());
+        float maxCameraY = totalFieldHeight - minCameraY - ui.getScaledHeight()*camera.zoom;
 
         if (camera.position.x > maxCameraX) camera.position.x = maxCameraX;
         if (camera.position.x < minCameraX) camera.position.x = minCameraX;

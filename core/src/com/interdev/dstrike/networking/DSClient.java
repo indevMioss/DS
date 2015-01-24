@@ -35,9 +35,18 @@ public class DSClient {
 
     private void register() {
         Kryo kryo = client.getKryo();
-        kryo.register(Packet.Packet0LoginRequest.class);
-        kryo.register(Packet.Packet1LoginAnswer.class);
-        kryo.register(Packet.Packet2Message.class);
+        kryo.register(Packet.PacketLoginRequest.class);
+        kryo.register(Packet.PacketLoginAnswer.class);
+        kryo.register(Packet.PacketMessage.class);
+
+        kryo.register(Packet.PacketBattlefieldUnitsUpdate.class);
+        kryo.register(Packet.PacketDeadUnitsIDs.class);
+        kryo.register(Packet.PacketReadyToPlay.class);
+        kryo.register(Packet.PacketWaveSpawned.class);
+
     }
 
+    public void sendReadyToPlayPacket() {
+        client.sendTCP(new Packet.PacketReadyToPlay());
+    }
 }

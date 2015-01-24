@@ -1,9 +1,6 @@
 package com.interdev.dstrike;
 
 import com.interdev.dstrike.networking.PriceList;
-import com.interdev.dstrike.units.Unit;
-
-import java.util.ArrayList;
 
 /**
  * Created by Evg256 on 14.01.2015.
@@ -28,7 +25,7 @@ public class Player {
     public static final short START_AIR_DEF_BONUS = 0;
 
 
-    private ArrayList<Unit> army;
+    //private ArrayList<Unit> army;
 
     Player() {
         minerals = START_MINERALS;
