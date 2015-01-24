@@ -34,42 +34,46 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     private Image personalFieldBg;
 
     private Stage mainStage;
-
+    private Base myBase, enemyBase;
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(new GestureDetector(this));
         initTextures();
-
         multipleVirtualViewportBuilder = new MultipleVirtualViewportBuilder(640, 1136, 720, 1280);
         virtualViewport = multipleVirtualViewportBuilder.getVirtualViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera = new OrthographicCameraWithVirtualViewport(virtualViewport);
         virutalWidth = (int) virtualViewport.getVirtualWidth();
         virutalHeight = (int) virtualViewport.getVirtualHeight();
-
         totalFieldWidth = battlefieldBgTexture.getWidth();
         totalFieldHeight = battlefieldBgTexture.getHeight() + personalFieldBgTexture.getWidth();
-
-        zoom = (float)totalFieldWidth / virutalWidth;
+        zoom = (float) totalFieldWidth / virutalWidth;
 
         Log.info("virutalWidth " + virutalWidth + "  virutalHeight " + virutalHeight);
         Log.info("totalFieldWidth " + totalFieldWidth + "  totalFieldHeight " + totalFieldHeight);
-
         camera.position.set(totalFieldWidth / 2, totalFieldHeight / 2, 10f);
         camera.update(true);
-
-
-        personalFieldBg = new Image(personalFieldBgTexture);
-        personalFieldBg.setPosition(0, 0);
-        battlefieldBg = new Image(battlefieldBgTexture);
-        battlefieldBg.setPosition(personalFieldBg.getX() + 0, personalFieldBg.getY() + personalFieldBg.getHeight());
-
 
         mainStage = new Stage();
         mainStage.getViewport().setCamera(camera);
 
+
+        personalFieldBg = new Image(personalFieldBgTexture);
+        personalFieldBg.setPosition(0, 0);
         mainStage.addActor(personalFieldBg);
+
+        battlefieldBg = new Image(battlefieldBgTexture);
+        battlefieldBg.setPosition(personalFieldBg.getX() + 0, personalFieldBg.getY() + personalFieldBg.getHeight());
         mainStage.addActor(battlefieldBg);
+
+        myBase = new Base();
+        myBase.setPosition(battlefieldBg.getWidth() / 2, battlefieldBg.getY() + battlefieldBg.getHeight() * 0.06f);
+        myBase.setRotation(180);
+        mainStage.addActor(myBase);
+
+        enemyBase = new Base();
+        enemyBase.setPosition(battlefieldBg.getWidth() / 2, battlefieldBg.getY() + battlefieldBg.getHeight() * 0.94f);
+        mainStage.addActor(enemyBase);
 
     }
 
