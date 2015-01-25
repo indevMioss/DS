@@ -9,10 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Base extends Actor {
 
-    public int lives = Values.BASE_START_LIVES;
+    public int lives = PlayerValues.BASE_START_LIVES;
     public int targetID = 0;
 
-    private final int damage = Values.BASE_DAMAGE;
+    private final int damage = PlayerValues.BASE_DAMAGE;
     private TextureRegion textureRegion;
 
 

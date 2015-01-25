@@ -24,7 +24,6 @@ public class Player {
     public static final short START_AIR_ATK_BONUS = 0;
     public static final short START_AIR_DEF_BONUS = 0;
 
-
     //private ArrayList<Unit> army;
 
     Player() {

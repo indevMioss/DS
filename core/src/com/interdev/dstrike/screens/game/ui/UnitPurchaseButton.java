@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.esotericsoftware.minlog.Log;
+import com.interdev.dstrike.Main;
 
 public class UnitPurchaseButton extends Actor {
 
@@ -23,6 +24,7 @@ public class UnitPurchaseButton extends Actor {
         this.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Log.info("button pressed");
+                Main.gameScreenReference.player.requestUnit(200,200, (short) 1);
                 return true;
             }
 

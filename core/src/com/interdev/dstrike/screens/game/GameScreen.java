@@ -18,6 +18,9 @@ import com.interdev.dstrike.screens.game.camera.VirtualViewport;
 import com.interdev.dstrike.screens.game.ui.UI;
 
 public class GameScreen implements Screen, GestureDetector.GestureListener {
+    public static int tickInterval = 500; //инициализируется повторно с сервера
+
+    public boolean screenLoaded = false;
 
     public Player player;
     public UI ui;
@@ -44,9 +47,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public void show() {
         Main.gameScreenReference = this;
         Log.info("Main.gameScreenReference = this");
-        player = new Player();
-
-        Main.dsClient.sendReadyToPlayPacket();
 
         initTextures();
 
@@ -89,6 +89,12 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         inputMultiplexer.addProcessor(new GestureDetector(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
 
+
+        player = new Player(mainStage);
+
+
+
+        screenLoaded = true;
     }
 
     private void initTextures() {
@@ -104,10 +110,10 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         camera.update();
 
         mainStage.getBatch().setProjectionMatrix(camera.projection);
-        mainStage.act(Gdx.graphics.getDeltaTime());
+        mainStage.act(delta);
         mainStage.draw();
 
-        ui.draw(Gdx.graphics.getDeltaTime());
+        ui.draw(delta);
 
     }
 

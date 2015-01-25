@@ -1,18 +1,16 @@
 package com.interdev.dstrike.networking;
 
+
 public class Packet {
-    public static class PacketLoginRequest {
-    }
+
+    // Server ->> Client // ----------------------------------------------
 
     public static class PacketLoginAnswer {
         public boolean accepted = false;
     }
 
-    public static class PacketMessage {
-        public String message;
-    }
-
-    public static class PacketReadyToPlay {
+    public static class PacketRoomReady {
+        public int tickInterval;
     }
 
     public static class PacketBattlefieldUnitsUpdate {
@@ -20,11 +18,25 @@ public class Packet {
         public PackedUnit[] Player2PackedUnits;
     }
 
-    public static class PacketDeadUnitsIDs {
-        public int[] deadUnitsIDs;
+    public static class PacketWaveSpawned {
     }
 
-    public static class PacketWaveSpawned {
+    public static class PacketAnswerUnitPurchase {
+        public int id; // 0 - покупка невозможна
+    }
+
+    public static class PacketAnswerUnitSell {
+        public boolean answer;
+    }
+
+    public static class PacketAnswerUpgrade {
+        public boolean answer;
+    }
+    // Client ->> Server // ------------------------------------------------
+
+    public static class PacketLoginRequest {
+    }
+    public static class PacketReadyToPlay {
     }
 
     public static class PacketRequestUnitPurchase {
@@ -33,23 +45,13 @@ public class Packet {
         public short y;
     }
 
-    public static class PacketAnswerUnitPurchase {
-        public int id; // 0 - покупка невозможна
-    }
 
     public static class PacketRequestUnitSell {
         public int id;
-    }
-
-    public static class PacketAnswerUnitSell {
-        public boolean answer;
     }
 
     public static class PacketRequestUpgrade {
         public short type;
     }
 
-    public static class PacketAnswerUpgrade {
-        public boolean answer;
-    }
 }
