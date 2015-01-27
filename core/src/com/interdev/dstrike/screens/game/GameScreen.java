@@ -18,7 +18,7 @@ import com.interdev.dstrike.screens.game.camera.VirtualViewport;
 import com.interdev.dstrike.screens.game.ui.UI;
 
 public class GameScreen implements Screen, GestureDetector.GestureListener {
-    public static int tickInterval = 500; //инициализируется повторно с сервера
+    public static int tickInterval = 0; //инициализируется повторно с сервера
 
     public boolean screenLoaded = false;
 

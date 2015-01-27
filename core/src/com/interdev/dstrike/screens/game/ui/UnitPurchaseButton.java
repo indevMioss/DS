@@ -24,7 +24,7 @@ public class UnitPurchaseButton extends Actor {
         this.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 Log.info("button pressed");
-                Main.gameScreenReference.player.requestUnit(200,200, (short) 1);
+                Main.gameScreenReference.player.requestUnit(400,200, (short) 1);
                 return true;
             }
 
