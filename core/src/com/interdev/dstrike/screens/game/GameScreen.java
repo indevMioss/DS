@@ -20,12 +20,14 @@ import com.interdev.dstrike.screens.game.ui.UI;
 public class GameScreen implements Screen, GestureDetector.GestureListener {
     public static int tickInterval = 0; //инициализируется повторно с сервера
 
+    public static float personalFieldWidth, personalFieldHeight;
+
     public boolean screenLoaded = false;
 
     public Player player;
     public UI ui;
-    private float virutalWidth;
-    private float virutalHeight;
+    public float virutalWidth;
+    public float virutalHeight;
     private float totalFieldWidth;
     private float totalFieldHeight;
 
@@ -34,7 +36,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
     private MultipleVirtualViewportBuilder multipleVirtualViewportBuilder;
     private VirtualViewport virtualViewport;
-    private OrthographicCameraWithVirtualViewport camera;
+    public OrthographicCameraWithVirtualViewport camera;
     private InputMultiplexer inputMultiplexer;
 
     private Texture battlefieldBgTexture;
@@ -67,9 +69,14 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage = new Stage();
         mainStage.getViewport().setCamera(camera);
 
+
+
         Image personalFieldBg = new Image(personalFieldBgTexture);
         personalFieldBg.setPosition(0, 0);
         mainStage.addActor(personalFieldBg);
+
+        personalFieldWidth = personalFieldBg.getWidth();
+        personalFieldHeight = personalFieldBg.getHeight();
 
         Image battlefieldBg = new Image(battlefieldBgTexture);
         battlefieldBg.setPosition(personalFieldBg.getX() + 0, personalFieldBg.getY() + personalFieldBg.getHeight());
@@ -163,6 +170,11 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
     }
 
+
+
+    // ------------------------------------------------- GestureDetector.GestureListener implementation methods -------------------------------------------------
+
+
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
         initialZoom = zoom;
@@ -210,4 +222,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
         return false;
     }
+
+
+
 }

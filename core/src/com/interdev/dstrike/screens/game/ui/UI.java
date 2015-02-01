@@ -14,7 +14,7 @@ public class UI {
     public Stage stage;
     public Texture bgTexture;
     public Image bg;
-    private UnitPurchaseButton unitPurchaseButton;
+    public UnitPurchaseSystem unitPurchaseSystem;
 
     public UI(float virtualWidth, InputMultiplexer inputMultiplexer) {
         stage = new Stage();
@@ -22,34 +22,31 @@ public class UI {
 
         bgTexture = new Texture(Gdx.files.internal("ui_bg.png"));
         bg = new Image(bgTexture);
-        bg.setPosition(0,0);
+        bg.setPosition(0, 0);
+        bg.setScale(virtualWidth / bg.getWidth());
         stage.addActor(bg);
 
-        unitPurchaseButton = new UnitPurchaseButton();
-        stage.addActor(unitPurchaseButton);
+        unitPurchaseSystem = new UnitPurchaseSystem(bg.getHeight()*bg.getScaleY(), stage);
+        unitPurchaseSystem.setScale(bg.getScaleX());
+        unitPurchaseSystem.setPosition(getScaledWidth() / 2 - unitPurchaseSystem.getWidth() * unitPurchaseSystem.getScaleX() / 2, getScaledHeight() / 2 - unitPurchaseSystem.getHeight() * unitPurchaseSystem.getScaleY() / 2);
+        stage.addActor(unitPurchaseSystem);
 
-        scaleTo(virtualWidth);
 
         bg.addListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Log.info("UI BG pressed");
+                Log.info("UI BG touchDown");
                 return true;
             }
 
         });
     }
 
-    public void scaleTo(float width) {
-        bg.setScale(width/bg.getWidth());
-        unitPurchaseButton.setScale(bg.getScaleX());
-        unitPurchaseButton.setPosition(getScaledWidth()/2 - unitPurchaseButton.getWidth()*unitPurchaseButton.getScaleX()/2, getScaledHeight()/2 - unitPurchaseButton.getHeight()*unitPurchaseButton.getScaleY()/2);
+    public float getScaledWidth() {
+        return bg.getWidth() * bg.getScaleX();
     }
 
-    public float getScaledWidth() {
-        return bg.getWidth()*bg.getScaleX();
-    }
     public float getScaledHeight() {
-        return bg.getHeight()*bg.getScaleY();
+        return bg.getHeight() * bg.getScaleY();
     }
 
     public void draw(float deltaTime) {

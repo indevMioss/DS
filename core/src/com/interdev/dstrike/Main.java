@@ -1,7 +1,6 @@
 package com.interdev.dstrike;
 
 import com.badlogic.gdx.Game;
-import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.networking.DSClient;
 import com.interdev.dstrike.screens.ScreenManager;
 import com.interdev.dstrike.screens.Screens;
@@ -16,7 +15,7 @@ public class Main extends Game {
 	public void create () {
 		ScreenManager.getInstance().initialize(this);
 		dsClient = new DSClient();
-		Log.set(Log.LEVEL_DEBUG);
+	//	Log.set(Log.LEVEL_DEBUG);
 
 		ScreenManager.getInstance().show(Screens.GAME);
 	}

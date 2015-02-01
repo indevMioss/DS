@@ -9,6 +9,7 @@ import com.interdev.dstrike.networking.Packet;
 import java.util.HashMap;
 
 public class Player {
+    public static int money = PlayerValues.START_MONEY;
 
     public HashMap<Integer, PassiveUnit> myPersonalFieldUnitsHashMap;
 
@@ -20,7 +21,6 @@ public class Player {
     private short tempRequestedUnitType = 1;
 
     private Stage stage;
-    public int flag = 0;
 
     public Player(Stage stage) {
         this.stage = stage;
@@ -32,7 +32,7 @@ public class Player {
     }
 
 
-    public void requestUnit(int x, int y, short type) {
+    public void requestUnit(float x, float y, short type) {
         tempRequestedUnitX = (short) x;
         tempRequestedUnitY = (short) y;
         tempRequestedUnitType = type;
@@ -85,6 +85,12 @@ public class Player {
                 unit.setTargetDestination(packedUnit.x, packedUnit.y);
                 unit.lives = packedUnit.lives;
                 unit.targetId = packedUnit.targetId;
+
+                if (unit.lives <= 0) {
+                    Log.info(" 1 my DEAD");
+                    unit.setVisible(false);
+                    myUnitsHashMap.remove(unit.id);
+                }
             }
         }
 
@@ -106,6 +112,13 @@ public class Player {
                 unit.setTargetDestination(packedUnit.x, packedUnit.y);
                 unit.lives = packedUnit.lives;
                 unit.targetId = packedUnit.targetId;
+
+                if (unit.lives <= 0) {
+                    Log.info(" 1 his DEAD");
+                    unit.setVisible(false);
+
+                    enemyUnitsHashMap.remove(unit.id);
+                }
             }
         }
     }
@@ -116,5 +129,10 @@ public class Player {
 
     public void onPacketAnswerUpgrade(boolean answer) {
 
+    }
+
+    public boolean canBuyUnit(short type) {
+
+        return true;
     }
 }
