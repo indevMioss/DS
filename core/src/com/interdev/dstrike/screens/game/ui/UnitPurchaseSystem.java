@@ -72,8 +72,7 @@ public class UnitPurchaseSystem extends Actor {
                     selectedUnitImage.setPosition(actualX - selectedUnitImage.getWidth() * selectedUnitImage.getScaleX() / 2, actualY - selectedUnitImage.getHeight() * selectedUnitImage.getScaleY() / 2);
                     if (actualY > uiBgHeight) {
                         touchUnprojectedVector = Main.gameScreenReference.camera.unproject(new Vector3(actualX, Main.gameScreenReference.virutalHeight - actualY, 0));
-                        // Log.info("x: " + actualX + ", y: " + actualY);
-                        // Log.info("x_un: " + touchUnprojectedVector.x + ", y_un: " + touchUnprojectedVector.y);
+
                         if (touchUnprojectedVector.x > getPersonalFieldBorder && touchUnprojectedVector.x < personalFieldWidth - getPersonalFieldBorder &&
                                 touchUnprojectedVector.y > getPersonalFieldBorder && touchUnprojectedVector.y < personalFieldHeight - getPersonalFieldBorder) {
                             unitPlaceIsOK = true;
@@ -94,10 +93,12 @@ public class UnitPurchaseSystem extends Actor {
         });
     }
 
-    public void confirmPurchase(boolean confirmed) {
-        if (confirmed) {
+    public void show(){
 
-        }
+    }
+
+    public void hide(){
+
     }
 
     @Override
