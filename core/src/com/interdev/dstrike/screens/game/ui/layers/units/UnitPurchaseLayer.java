@@ -1,26 +1,31 @@
-package com.interdev.dstrike.screens.game.ui;
+package com.interdev.dstrike.screens.game.ui.layers.units;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.Main;
+import com.interdev.dstrike.screens.GDXUtilily;
 import com.interdev.dstrike.screens.game.GameScreen;
 import com.interdev.dstrike.screens.game.PlayerValues;
+import com.interdev.dstrike.screens.game.ui.UI;
+import com.interdev.dstrike.screens.game.ui.layers.UILayer;
 
-public class UnitPurchaseSystem extends Actor {
+public class UnitPurchaseLayer implements UILayer {
+
+    private UI ui;
+    private Stage stage;
 
     private float personalFieldWidth = GameScreen.personalFieldWidth;
     private float personalFieldHeight = GameScreen.personalFieldHeight;
     private float getPersonalFieldBorder = personalFieldWidth * PlayerValues.PERSONAL_FIELD_BORDER;
 
-    public Texture texture;
+    public Image purchaseButton;
     private short selectedUnitType = 1;
 
     public boolean placingUnit = false;
@@ -28,26 +33,32 @@ public class UnitPurchaseSystem extends Actor {
 
     private Vector3 touchUnprojectedVector;
 
+    private SpriteBatch pickedUnitBatch = new SpriteBatch();
     private UnitImages unitImages;
-    private Image selectedUnitImage;
+    private Image pickedUnitImage;
 
-    public UnitPurchaseSystem(final float uiBgHeight, Stage stage) {
-        unitImages = new UnitImages(stage);
+    private InputListener inputListener;
 
-        texture = new Texture(Gdx.files.internal("unit_purchase_button.png"));
-        setWidth(texture.getWidth());
-        setHeight(texture.getHeight());
-        setBounds(getX(), getY(), getWidth(), getHeight());
+    public UnitPurchaseLayer(final UI ui, final Image bg, float layerScale, final float safeHeight) {
+        this.ui = ui;
+        this.stage = ui.stage;
+
+        unitImages = new UnitImages();
+        purchaseButton = new Image(new Texture(Gdx.files.internal("ui/unit_purchase_button.png")));
+        GDXUtilily.scale(purchaseButton, layerScale);
+        GDXUtilily.setPosCentr(purchaseButton, bg.getWidth()/2, bg.getHeight()*0.3f);
+        purchaseButton.setVisible(false);
+        stage.addActor(purchaseButton);
 
 
-        this.addListener(new InputListener() {
+        inputListener = new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (Main.gameScreenReference.player.canBuyUnit(selectedUnitType)) {
                     placingUnit = true;
-                    selectedUnitImage = unitImages.getUnitImage(selectedUnitType);
-                    selectedUnitImage.setScale(1 / Main.gameScreenReference.camera.zoom);
-                    selectedUnitImage.setPosition(-selectedUnitImage.getWidth(), -selectedUnitImage.getHeight());
-                    selectedUnitImage.setVisible(true);
+                    pickedUnitImage = unitImages.getUnitImage(selectedUnitType);
+                    pickedUnitImage.setScale(1 / Main.gameScreenReference.camera.zoom);
+                    pickedUnitImage.setPosition(-pickedUnitImage.getWidth(), -pickedUnitImage.getHeight());
+                    pickedUnitImage.setVisible(true);
                 }
                 return true;
             }
@@ -57,7 +68,7 @@ public class UnitPurchaseSystem extends Actor {
                     if (unitPlaceIsOK) {
                         Main.gameScreenReference.player.requestUnit(touchUnprojectedVector.x, touchUnprojectedVector.y, selectedUnitType);
                     }
-                    selectedUnitImage.setVisible(false);
+                    pickedUnitImage.setVisible(false);
                 }
 
                 placingUnit = false;
@@ -67,43 +78,51 @@ public class UnitPurchaseSystem extends Actor {
 
             public void touchDragged(InputEvent event, float x, float y, int pointer) {
                 if (placingUnit) {
-                    float actualX = ((x) * getScaleX() + getX());
-                    float actualY = ((y) * getScaleY() + getY());
-                    selectedUnitImage.setPosition(actualX - selectedUnitImage.getWidth() * selectedUnitImage.getScaleX() / 2, actualY - selectedUnitImage.getHeight() * selectedUnitImage.getScaleY() / 2);
-                    if (actualY > uiBgHeight) {
+                    float actualX = ((x) * purchaseButton.getScaleX() + purchaseButton.getX());
+                    float actualY = ((y) * purchaseButton.getScaleY() + purchaseButton.getY());
+                    pickedUnitImage.setPosition(actualX - pickedUnitImage.getWidth() * pickedUnitImage.getScaleX() / 2, actualY - pickedUnitImage.getHeight() * pickedUnitImage.getScaleY() / 2);
+                    if (actualY > safeHeight) {
                         touchUnprojectedVector = Main.gameScreenReference.camera.unproject(new Vector3(actualX, Main.gameScreenReference.virutalHeight - actualY, 0));
 
                         if (touchUnprojectedVector.x > getPersonalFieldBorder && touchUnprojectedVector.x < personalFieldWidth - getPersonalFieldBorder &&
                                 touchUnprojectedVector.y > getPersonalFieldBorder && touchUnprojectedVector.y < personalFieldHeight - getPersonalFieldBorder) {
                             unitPlaceIsOK = true;
-                            selectedUnitImage.setColor(1, 1, 1, 1f);
+                            pickedUnitImage.setColor(1, 1, 1, 1f);
 
                             Log.info("unitPlaceIsOK = true;");
                         } else {
                             unitPlaceIsOK = false;
-                            selectedUnitImage.setColor(1, 1, 1, 0.25f);
+                            pickedUnitImage.setColor(1, 1, 1, 0.5f);
                         }
                     } else {
                         unitPlaceIsOK = false;
-                        selectedUnitImage.setColor(1, 1, 1, 0.25f);
+                        pickedUnitImage.setColor(1, 1, 1, 0.5f);
                     }
 
                 }
             }
-        });
-    }
-
-    public void show(){
+        };
 
     }
 
-    public void hide(){
-
+    public void draw(float deltaTime) {
+        if (pickedUnitImage != null && pickedUnitImage.isVisible()) {
+            pickedUnitBatch.begin();
+            pickedUnitImage.draw(pickedUnitBatch, 1f);
+            pickedUnitBatch.end();
+        }
     }
 
     @Override
-    public void draw(Batch batch, float alpha) {
-        batch.draw(texture, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
+    public void setVisible(boolean visible) {
+        purchaseButton.setVisible(visible);
+
+        if (visible) {
+            purchaseButton.addListener(inputListener);
+        } else {
+            purchaseButton.clearListeners();
+        }
     }
+
 
 }

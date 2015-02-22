@@ -127,8 +127,8 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     private void checkCameraBounds() {
         float minCameraX = camera.zoom * (camera.viewportWidth / 2);
         float maxCameraX = totalFieldWidth - minCameraX;
-        float minCameraY = camera.zoom * (camera.viewportHeight / 2 - ui.getScaledHeight());
-        float maxCameraY = totalFieldHeight - minCameraY - ui.getScaledHeight()*camera.zoom;
+        float minCameraY = camera.zoom * (camera.viewportHeight / 2 - ui.getBgHeight());
+        float maxCameraY = totalFieldHeight - minCameraY - ui.getBgHeight()*camera.zoom;
 
         if (camera.position.x > maxCameraX) camera.position.x = maxCameraX;
         if (camera.position.x < minCameraX) camera.position.x = minCameraX;
