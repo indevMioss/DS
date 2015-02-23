@@ -44,8 +44,15 @@ public class ActiveUnit extends Actor {
         timeFromLastTargetXYUpdate = 0;
         lastX = targetX;
         lastY = targetY;
-        targetX = x;
-        targetY = y;
+
+        int cellX = (int) (x/64);
+        int cellY = (int) (y/64);
+
+        targetX = cellX*64 + 32;
+        targetY = cellY*64 + 32;
+
+        //   targetX = x;
+     //   targetY = y;
 
     }
 
