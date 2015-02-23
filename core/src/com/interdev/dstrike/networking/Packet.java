@@ -3,6 +3,10 @@ package com.interdev.dstrike.networking;
 
 public class Packet {
 
+    public static class PacketCellsDebug {
+        public PackedCell cells[][];
+    }
+
     // Server ->> Client // ----------------------------------------------
 
     public static class PacketLoginAnswer {

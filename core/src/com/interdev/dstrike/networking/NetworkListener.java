@@ -47,6 +47,8 @@ public class NetworkListener extends Listener {
                 Main.gameScreenReference.player.onPacketAnswerUnitSell(((Packet.PacketAnswerUnitSell) obj).answer);
             } else if (obj instanceof Packet.PacketAnswerUpgrade) {
                 Main.gameScreenReference.player.onPacketAnswerUpgrade(((Packet.PacketAnswerUpgrade) obj).answer);
+            }  else if (obj instanceof Packet.PacketCellsDebug) {
+                Main.gameScreenReference.player.onPacketCellsDebug(((Packet.PacketCellsDebug) obj).cells);
             }
         }
     }

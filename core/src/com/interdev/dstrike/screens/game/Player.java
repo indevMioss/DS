@@ -3,6 +3,7 @@ package com.interdev.dstrike.screens.game;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.Main;
+import com.interdev.dstrike.networking.PackedCell;
 import com.interdev.dstrike.networking.PackedUnit;
 import com.interdev.dstrike.networking.Packet;
 
@@ -21,6 +22,8 @@ public class Player {
     private short tempRequestedUnitType = 1;
 
     private Stage stage;
+
+    public PackedCell[][] packedCells;
 
     public Player(Stage stage) {
         this.stage = stage;
@@ -134,5 +137,9 @@ public class Player {
     public boolean canBuyUnit(short type) {
 
         return true;
+    }
+
+    public void onPacketCellsDebug(PackedCell[][] cells) {
+        packedCells = cells;
     }
 }

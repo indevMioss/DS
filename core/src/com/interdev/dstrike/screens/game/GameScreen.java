@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.Main;
+import com.interdev.dstrike.networking.PackedCell;
 import com.interdev.dstrike.screens.game.camera.MultipleVirtualViewportBuilder;
 import com.interdev.dstrike.screens.game.camera.OrthographicCameraWithVirtualViewport;
 import com.interdev.dstrike.screens.game.camera.VirtualViewport;
@@ -45,6 +47,9 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     private Stage mainStage;
     private Base myBase, enemyBase;
 
+    private Texture cellTexture = new Texture(Gdx.files.internal("cell.png"));
+    private Image cellImage = new Image(cellTexture);
+
     @Override
     public void show() {
         Main.gameScreenReference = this;
@@ -68,7 +73,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
         mainStage = new Stage();
         mainStage.getViewport().setCamera(camera);
-
 
 
         Image personalFieldBg = new Image(personalFieldBgTexture);
@@ -100,7 +104,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         player = new Player(mainStage);
 
 
-
         screenLoaded = true;
     }
 
@@ -119,16 +122,39 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage.getBatch().setProjectionMatrix(camera.projection);
         mainStage.act(delta);
         mainStage.draw();
+        drawCells(mainStage.getBatch());
 
         ui.draw(delta);
 
+    }
+
+    private void drawCells(Batch batch) {
+        batch.begin();
+        if (player.packedCells != null) {
+            for (int i = 0; i < 64; i++) {
+                for (int j = 0; j < 16; j++) {
+                    PackedCell cell = player.packedCells[i][j];
+                    if (cell != null) {
+                        if (cell.free) {
+                            cellImage.setColor(1f,1f,1f,1f);
+                        } else {
+                            cellImage.setColor(1f,0.5f,0.5f,1f);
+                        }
+                        cellImage.setPosition(cell.x, cell.y);
+                        cellImage.draw(batch, 1f);
+                    }
+                }
+            }
+        }
+
+        batch.end();
     }
 
     private void checkCameraBounds() {
         float minCameraX = camera.zoom * (camera.viewportWidth / 2);
         float maxCameraX = totalFieldWidth - minCameraX;
         float minCameraY = camera.zoom * (camera.viewportHeight / 2 - ui.getBgHeight());
-        float maxCameraY = totalFieldHeight - minCameraY - ui.getBgHeight()*camera.zoom;
+        float maxCameraY = totalFieldHeight - minCameraY - ui.getBgHeight() * camera.zoom;
 
         if (camera.position.x > maxCameraX) camera.position.x = maxCameraX;
         if (camera.position.x < minCameraX) camera.position.x = minCameraX;
@@ -169,7 +195,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public void dispose() {
 
     }
-
 
 
     // ------------------------------------------------- GestureDetector.GestureListener implementation methods -------------------------------------------------
@@ -222,7 +247,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
         return false;
     }
-
 
 
 }

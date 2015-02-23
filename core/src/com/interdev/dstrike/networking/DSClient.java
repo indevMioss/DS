@@ -17,7 +17,7 @@ public class DSClient {
 
     public DSClient() {
         scanner = new Scanner(System.in);
-        client = new Client();
+        client = new Client(32769, 8192);
         register();
 
         NetworkListener networkListener = new NetworkListener();
@@ -35,6 +35,11 @@ public class DSClient {
 
     private void register() {
         Kryo kryo = client.getKryo();
+
+        kryo.register(PackedCell.class);
+        kryo.register(PackedCell[].class);
+        kryo.register(PackedCell[][].class);
+        kryo.register(Packet.PacketCellsDebug.class);
 
         kryo.register(Packet.PacketLoginAnswer.class);
         kryo.register(Packet.PacketRoomReady.class);
