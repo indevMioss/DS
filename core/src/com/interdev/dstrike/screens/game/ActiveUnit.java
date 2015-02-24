@@ -24,7 +24,7 @@ public class ActiveUnit extends Actor {
     public ActiveUnit(float x, float y, short type, int id) {
         this.type = type;
         this.id = id;
-        setPosition(x,y);
+        setPosition(x, y);
 
         targetX = x;
         targetY = y;
@@ -45,14 +45,14 @@ public class ActiveUnit extends Actor {
         lastX = targetX;
         lastY = targetY;
 
-        int cellX = (int) (x/64);
-        int cellY = (int) (y/64);
+        //      int cellX = (int) (x/64);
+        //       int cellY = (int) (y/64);
 
-        targetX = cellX*64 + 32;
-        targetY = cellY*64 + 32;
-
-        //   targetX = x;
-     //   targetY = y;
+        //      targetX = cellX*64 + 32;
+        //     targetY = cellY*64 + 32;
+//
+        targetX = x;
+        targetY = y;
 
     }
 
@@ -61,7 +61,7 @@ public class ActiveUnit extends Actor {
         super.act(deltaTime);
         timeFromLastTargetXYUpdate += deltaTime;
 
-        float percent = timeFromLastTargetXYUpdate/(GameScreen.tickInterval/1000f);
+        float percent = timeFromLastTargetXYUpdate / (GameScreen.tickInterval / 1000f);
         if (percent > 1f) percent = 1f;
 
         setX(Interpolation.linear.apply(lastX, targetX, percent));
@@ -71,7 +71,7 @@ public class ActiveUnit extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        batch.draw(textureRegion, getX() - getWidth()/2, getY() - getHeight()/2, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        batch.draw(textureRegion, getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
 }

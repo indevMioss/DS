@@ -22,7 +22,9 @@ import com.interdev.dstrike.screens.game.ui.UI;
 public class GameScreen implements Screen, GestureDetector.GestureListener {
     public static int tickInterval = 0; //инициализируется повторно с сервера
 
+    public static final int battleFieldTiles = 2;
     public static float personalFieldWidth, personalFieldHeight;
+    public static float totalFieldWidth, totalFieldHeight;
 
     public boolean screenLoaded = false;
 
@@ -30,8 +32,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public UI ui;
     public float virutalWidth;
     public float virutalHeight;
-    private float totalFieldWidth;
-    private float totalFieldHeight;
 
     private float zoom;
     private float initialZoom = 1f;
@@ -41,8 +41,10 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public OrthographicCameraWithVirtualViewport camera;
     private InputMultiplexer inputMultiplexer;
 
-    private Texture battlefieldBgTexture;
-    private Texture personalFieldBgTexture;
+    private Texture battlefieldBgTexture = new Texture(Gdx.files.internal("bg_tile.jpg"));
+    private Texture platformTexture = new Texture(Gdx.files.internal("platform.jpg"));
+    private Texture platformTopTexture = new Texture(Gdx.files.internal("platform_top.png"));
+
 
     private Stage mainStage;
     private Base myBase, enemyBase;
@@ -53,17 +55,16 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     @Override
     public void show() {
         Main.gameScreenReference = this;
-        Log.info("Main.gameScreenReference = this");
-
-        initTextures();
 
         multipleVirtualViewportBuilder = new MultipleVirtualViewportBuilder(480, 800, 720, 1280);
         virtualViewport = multipleVirtualViewportBuilder.getVirtualViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera = new OrthographicCameraWithVirtualViewport(virtualViewport);
         virutalWidth = (int) virtualViewport.getVirtualWidth();
         virutalHeight = (int) virtualViewport.getVirtualHeight();
+
         totalFieldWidth = battlefieldBgTexture.getWidth();
-        totalFieldHeight = battlefieldBgTexture.getHeight() + personalFieldBgTexture.getWidth();
+        totalFieldHeight = battlefieldBgTexture.getHeight() * battleFieldTiles + platformTexture.getHeight();
+
         zoom = totalFieldWidth / virutalWidth;
 
         Log.info("virutalWidth " + virutalWidth + "  virutalHeight " + virutalHeight);
@@ -74,25 +75,33 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage = new Stage();
         mainStage.getViewport().setCamera(camera);
 
+        Image platform = new Image(platformTexture);
+        platform.setPosition(0, 0);
+        mainStage.addActor(platform);
 
-        Image personalFieldBg = new Image(personalFieldBgTexture);
-        personalFieldBg.setPosition(0, 0);
-        mainStage.addActor(personalFieldBg);
 
-        personalFieldWidth = personalFieldBg.getWidth();
-        personalFieldHeight = personalFieldBg.getHeight();
+        personalFieldWidth = platform.getWidth();
+        personalFieldHeight = platform.getHeight();
 
-        Image battlefieldBg = new Image(battlefieldBgTexture);
-        battlefieldBg.setPosition(personalFieldBg.getX() + 0, personalFieldBg.getY() + personalFieldBg.getHeight());
-        mainStage.addActor(battlefieldBg);
 
+        for (int i = 0; i < battleFieldTiles; i++) {
+            Image battlefieldBgTile = new Image(battlefieldBgTexture);
+            battlefieldBgTile.setPosition(platform.getX() + 0, platform.getHeight() + battlefieldBgTile.getHeight() * i);
+            mainStage.addActor(battlefieldBgTile);
+        }
+
+        Image platformTop = new Image(platformTopTexture);
+        platformTop.setPosition(0, platform.getHeight());
+        mainStage.addActor(platformTop);
+
+        float basesOffset = 0.2f;
         myBase = new Base();
-        myBase.setPosition(battlefieldBg.getWidth() / 2, battlefieldBg.getY() + battlefieldBg.getHeight() * 0.06f);
+        myBase.setPosition(totalFieldWidth / 2, personalFieldHeight + personalFieldHeight * basesOffset);
         myBase.setRotation(180);
         mainStage.addActor(myBase);
 
         enemyBase = new Base();
-        enemyBase.setPosition(battlefieldBg.getWidth() / 2, battlefieldBg.getY() + battlefieldBg.getHeight() * 0.94f);
+        enemyBase.setPosition(totalFieldWidth / 2, totalFieldHeight - personalFieldHeight * basesOffset);
         mainStage.addActor(enemyBase);
 
         inputMultiplexer = new InputMultiplexer();
@@ -107,11 +116,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         screenLoaded = true;
     }
 
-    private void initTextures() {
-        battlefieldBgTexture = new Texture(Gdx.files.internal("battlefield_bg.jpg"));
-        personalFieldBgTexture = new Texture(Gdx.files.internal("personal_field_bg.png"));
-
-    }
 
     @Override
     public void render(float delta) {
@@ -136,9 +140,9 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
                     PackedCell cell = player.packedCells[i][j];
                     if (cell != null) {
                         if (cell.free) {
-                            cellImage.setColor(1f,1f,1f,1f);
+                            cellImage.setColor(1f, 1f, 1f, 1f);
                         } else {
-                            cellImage.setColor(1f,0.5f,0.5f,1f);
+                            cellImage.setColor(1f, 0.5f, 0.5f, 1f);
                         }
                         cellImage.setPosition(cell.x, cell.y);
                         cellImage.draw(batch, 1f);
