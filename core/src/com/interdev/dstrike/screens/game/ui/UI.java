@@ -54,6 +54,8 @@ public class UI {
     public Image glass = new Image(textureAtlas.findRegion("glass"));
 
     public UI(float virtualWidth, InputMultiplexer inputMultiplexer) {
+
+
         this.virtualWidth = virtualWidth;
         layersScale = virtualWidth / bg.getWidth();
         stage = new Stage();
@@ -85,10 +87,10 @@ public class UI {
     private void initFonts() {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/font_ui.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = (int) ((float)MONEY_FONT_SIZE * layersScale);
+        parameter.size = (int) ((float) MONEY_FONT_SIZE * layersScale);
         moneyFont = generator.generateFont(parameter);
 
-        parameter.size = (int) ((float)ICONS_FONT_SIZE * layersScale);
+        parameter.size = (int) ((float) ICONS_FONT_SIZE * layersScale);
         iconsFont = generator.generateFont(parameter);
         iconsFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
