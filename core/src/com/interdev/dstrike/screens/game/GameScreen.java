@@ -22,7 +22,8 @@ import com.interdev.dstrike.screens.game.ui.UI;
 public class GameScreen implements Screen, GestureDetector.GestureListener {
     public static int tickInterval = 0; //инициализируется повторно с сервера
 
-    public static final int battleFieldTiles = 2;
+    public static final int BATTLE_FIELD_TILES = 2;
+
     public static float personalFieldWidth, personalFieldHeight;
     public static float totalFieldWidth, totalFieldHeight;
 
@@ -63,7 +64,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         virutalHeight = (int) virtualViewport.getVirtualHeight();
 
         totalFieldWidth = battlefieldBgTexture.getWidth();
-        totalFieldHeight = battlefieldBgTexture.getHeight() * battleFieldTiles + platformTexture.getHeight();
+        totalFieldHeight = battlefieldBgTexture.getHeight() * BATTLE_FIELD_TILES + platformTexture.getHeight();
 
         zoom = totalFieldWidth / virutalWidth;
 
@@ -84,7 +85,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         personalFieldHeight = platform.getHeight();
 
 
-        for (int i = 0; i < battleFieldTiles; i++) {
+        for (int i = 0; i < BATTLE_FIELD_TILES; i++) {
             Image battlefieldBgTile = new Image(battlefieldBgTexture);
             battlefieldBgTile.setPosition(platform.getX() + 0, platform.getHeight() + battlefieldBgTile.getHeight() * i);
             mainStage.addActor(battlefieldBgTile);

@@ -2,9 +2,12 @@ package com.interdev.dstrike.screens.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
@@ -18,9 +21,19 @@ import com.interdev.dstrike.screens.game.ui.layers.upgrades.UpgradesLayer;
 public class UI {
     public final static int BG_SAFE_HEIGHT = 316;
 
+    public final static int MONEY_FONT_SIZE = 42;
+    public final static int ICONS_FONT_SIZE = 36;
+
+    public BitmapFont moneyFont;
+    public BitmapFont iconsFont;
+
     public enum UiLayers {MAIN, UPGRADES, UNITS, GAS;}
+
     public UiLayers currentLayerName;
     public UILayer currentLayer;
+
+    public final float virtualWidth;
+
 
     private SpriteBatch livesBatch = new SpriteBatch();
 
@@ -29,7 +42,7 @@ public class UI {
     public UpgradesLayer upgradesLayer;
     public GasLayer gasLayer;
 
-    public float scale;
+    public float layersScale;
 
     public Stage stage;
 
@@ -41,29 +54,44 @@ public class UI {
     public Image glass = new Image(textureAtlas.findRegion("glass"));
 
     public UI(float virtualWidth, InputMultiplexer inputMultiplexer) {
-
-        scale = virtualWidth/bg.getWidth();
+        this.virtualWidth = virtualWidth;
+        layersScale = virtualWidth / bg.getWidth();
         stage = new Stage();
         inputMultiplexer.addProcessor(stage);
 
-        GDXUtilily.scale(bg, scale);
+        initFonts();
+
+        GDXUtilily.scale(bg, layersScale);
         stage.addActor(bg);
 
         System.out.println(livesTextureArray.size + " -----------");
         livesAnimation = new LivesAnimation(0.07f, livesTextureArray, Animation.PlayMode.LOOP);
-        livesAnimation.setScale(scale);
-        livesAnimation.setCenterPos(bg.getWidth()*0.5f, bg.getHeight()*0.605f);
+        livesAnimation.setScale(layersScale);
+        livesAnimation.setCenterPos(bg.getWidth() * 0.5f, bg.getHeight() * 0.605f);
 
-        GDXUtilily.scale(glass, scale);
-        GDXUtilily.setPosCentr(glass, bg.getWidth()*0.5f, bg.getHeight()*0.605f);
+        GDXUtilily.scale(glass, layersScale);
+        GDXUtilily.setPosCentr(glass, bg.getWidth() * 0.5f, bg.getHeight() * 0.605f);
 
 
-        mainLayer = new MainLayer(this, bg, scale);
-        upgradesLayer = new UpgradesLayer(this, bg, scale);
-        gasLayer = new GasLayer(this, bg, scale);
-        unitPurchaseLayer = new UnitPurchaseLayer(this, bg, scale, BG_SAFE_HEIGHT*scale);
+        mainLayer = new MainLayer(this, bg, layersScale);
+        upgradesLayer = new UpgradesLayer(this, bg, layersScale);
+        gasLayer = new GasLayer(this, bg, layersScale);
+        unitPurchaseLayer = new UnitPurchaseLayer(this, bg, layersScale, BG_SAFE_HEIGHT * layersScale);
 
         setUiLayer(UiLayers.UNITS);
+
+    }
+
+    private void initFonts() {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/font_ui.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = (int) ((float)MONEY_FONT_SIZE * layersScale);
+        moneyFont = generator.generateFont(parameter);
+
+        parameter.size = (int) ((float)ICONS_FONT_SIZE * layersScale);
+        iconsFont = generator.generateFont(parameter);
+        iconsFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Nearest);
+        generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
     }
 
@@ -84,7 +112,7 @@ public class UI {
     }
 
     public float getBgHeight() {
-        return BG_SAFE_HEIGHT*scale;
+        return BG_SAFE_HEIGHT * layersScale;
     }
 
     public void setUiLayer(UiLayers layer) {

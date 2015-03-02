@@ -20,13 +20,14 @@ public class UnitPurchaseLayer implements UILayer {
 
     private UI ui;
     private Stage stage;
+    private InputListener inputListener;
 
     private float personalFieldWidth = GameScreen.personalFieldWidth;
     private float personalFieldHeight = GameScreen.personalFieldHeight;
     private float getPersonalFieldBorder = personalFieldWidth * PlayerValues.PERSONAL_FIELD_BORDER;
 
     public Image purchaseButton;
-    private short selectedUnitType = 1;
+    private short selectedUnitType = 0;
 
     public boolean placingUnit = false;
     public boolean unitPlaceIsOK = false;
@@ -37,16 +38,21 @@ public class UnitPurchaseLayer implements UILayer {
     private UnitImages unitImages;
     private Image pickedUnitImage;
 
-    private InputListener inputListener;
+    private SelectionSystem selectionSystem;
+
 
     public UnitPurchaseLayer(final UI ui, final Image bg, float layerScale, final float safeHeight) {
         this.ui = ui;
         this.stage = ui.stage;
 
+        selectionSystem = new SelectionSystem(ui);
+
         unitImages = new UnitImages();
+
         purchaseButton = new Image(new Texture(Gdx.files.internal("ui/unit_purchase_button.png")));
         GDXUtilily.scale(purchaseButton, layerScale);
         GDXUtilily.setPosCentr(purchaseButton, bg.getWidth()/2, bg.getHeight()*0.3f);
+        purchaseButton.setColor(1f,1f,1f,0f);
         purchaseButton.setVisible(false);
         stage.addActor(purchaseButton);
 
@@ -116,12 +122,14 @@ public class UnitPurchaseLayer implements UILayer {
     @Override
     public void setVisible(boolean visible) {
         purchaseButton.setVisible(visible);
+        selectionSystem.setVisible(visible);
 
         if (visible) {
             purchaseButton.addListener(inputListener);
         } else {
             purchaseButton.clearListeners();
         }
+
     }
 
 
