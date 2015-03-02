@@ -45,14 +45,9 @@ public class ActiveUnit extends Actor {
         lastX = targetX;
         lastY = targetY;
 
-        //      int cellX = (int) (x/64);
-        //       int cellY = (int) (y/64);
-
-        //      targetX = cellX*64 + 32;
-        //     targetY = cellY*64 + 32;
-//
+// ><(('>
         targetX = x;
-        targetY = y;
+        
 
     }
 
