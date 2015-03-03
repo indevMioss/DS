@@ -40,7 +40,7 @@ public class UnitValues {
         public short lives;
         public short damage;
         public short atk_range; // 0 - ближний бой
-        public float atk_speed; // раз в X ms
+        public float atk_interval; // раз в X ms
         public short walk_speed; // виртуальных px/s
         public short texture_width;
 
@@ -51,13 +51,13 @@ public class UnitValues {
 
     private static class Unit0Values extends UnitVal {
         private Unit0Values() {
-            price = 120;
+            price = 100;
             lives = 60;
             damage = 30;
-            atk_range = 0; // 0 - ближний бой
-            atk_speed = 300; // раз в X ms
+            atk_range = 150; // 0 - ближний бой
+            atk_interval = 500; // раз в X ms
             walk_speed = 20; // виртуальных px/s
-            texture_width = 80;
+            texture_width = 64;
 
             texturePath = "unit0.png";
             iconTexturePath = "icon";
