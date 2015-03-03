@@ -17,7 +17,7 @@ public class UnitIcon extends Actor {
 
     private float textWidth;
     private float textHeight;
-    private float scale = 1f;
+    public float scale = 1f;
 
     public Image icon;
 
@@ -25,32 +25,40 @@ public class UnitIcon extends Actor {
         this.ui = ui;
         price = UnitValues.getByType(num).price;
         priceText = String.valueOf(price);
-
         textWidth = ui.iconsFont.getBounds(priceText).width;
         textHeight = ui.iconsFont.getBounds(priceText).height;
 
         icon = new Image(ui.textureAtlas.findRegion(UnitValues.getByType(num).iconTexturePath));
         GDXUtilily.scale(icon, ui.layersScale);
-        icon.setPosition(icon.getWidth() * num + icon.getWidth() * SelectionSystem.ICONS_OFFSET, 0);
 
-        setBounds(icon.getX(), icon.getY(), icon.getWidth(), icon.getHeight());
+        setPosition(icon.getWidth() * (1 - SelectionSystem.ICONS_OFFSET) * num, 0);
         iconsGroup.addActor(this);
+    }
+
+    public float getWidthScaled() {
+        return icon.getWidth()*scale;
+    }
+
+    public void setPosition(float x, float y) {
+        icon.setPosition(x, y);
+      //  setBounds(icon.getX(), icon.getY(), icon.getWidth(), icon.getHeight());
+
     }
 
     public void setScale(float scale) {
         this.scale = scale;
         icon.setScale(scale);
         setBounds(icon.getX(), icon.getY(), icon.getWidth(), icon.getHeight());
-        icon.setOrigin(icon.getWidth() / 2, icon.getHeight() / 2);
+        icon.setOrigin(0, icon.getHeight() / 2);
         //ui.iconsFont.setScale();
 
     }
 
     @Override
-    public void draw (Batch batch, float parentAlpha) {
+    public void draw(Batch batch, float parentAlpha) {
         icon.draw(batch, parentAlpha);
         ui.iconsFont.setScale(scale);
-        ui.iconsFont.draw(batch, priceText, icon.getX() + icon.getWidth()/2 - scale *textWidth/2, icon.getY() + icon.getHeight()*0.21f/scale + scale *textHeight/2);
+        ui.iconsFont.draw(batch, priceText, icon.getX() + getWidthScaled() / 2 - scale * textWidth / 2, icon.getY() + icon.getHeight() * 0.21f / scale + scale * textHeight / 2);
     }
 
 }

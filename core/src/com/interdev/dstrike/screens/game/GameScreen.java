@@ -105,14 +105,12 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         enemyBase.setPosition(totalFieldWidth / 2, totalFieldHeight - personalFieldHeight * basesOffset);
         mainStage.addActor(enemyBase);
 
+        player = new Player(mainStage);
+
         inputMultiplexer = new InputMultiplexer();
         ui = new UI(virutalWidth, inputMultiplexer);
         inputMultiplexer.addProcessor(new GestureDetector(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
-
-
-        player = new Player(mainStage);
-
 
         screenLoaded = true;
     }

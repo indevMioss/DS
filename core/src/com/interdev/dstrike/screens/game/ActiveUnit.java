@@ -47,7 +47,7 @@ public class ActiveUnit extends Actor {
 
         targetX = x;
         targetY = y;
-        
+
     }
 
     @Override

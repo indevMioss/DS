@@ -2,12 +2,16 @@ package com.interdev.dstrike.screens.game;
 
 
 public class UnitValues {
-    public static final int unitTypesAmount = 4;
+    public static final int unitTypesAmount = 8;
 
     private static UnitVal unit0 = new Unit0Values();
     private static UnitVal unit1 = new Unit0Values();
     private static UnitVal unit2 = new Unit0Values();
     private static UnitVal unit3 = new Unit0Values();
+    private static UnitVal unit4 = new Unit0Values();
+    private static UnitVal unit5 = new Unit0Values();
+    private static UnitVal unit6 = new Unit0Values();
+    private static UnitVal unit7 = new Unit0Values();
 
     public static UnitVal getByType(int type) {
         switch (type) {
@@ -19,6 +23,14 @@ public class UnitValues {
                 return unit2;
             case 3:
                 return unit3;
+            case 4:
+                return unit4;
+            case 5:
+                return unit5;
+            case 6:
+                return unit6;
+            case 7:
+                return unit7;
         }
         return unit0;
     }

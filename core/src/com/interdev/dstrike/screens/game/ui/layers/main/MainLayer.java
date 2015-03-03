@@ -51,32 +51,32 @@ public class MainLayer implements UILayer {
 
         upgradesButtonListener = new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 ui.setUiLayer(UI.UiLayers.UPGRADES);
             }
         };
 
         unitsButtonListener = new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 ui.setUiLayer(UI.UiLayers.UNITS);
             }
         };
 
         gasButtonListener = new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 ui.setUiLayer(UI.UiLayers.GAS);
             }
         };
 
-        GDXUtilily.scale(upgradesButton, layerScale);
-        GDXUtilily.scale(unitsButton, layerScale);
-        GDXUtilily.scale(gasButton, layerScale);
+        GDXUtilily.scale(upgradesButton, layerScale/2);
+        GDXUtilily.scale(unitsButton, layerScale/2);
+        GDXUtilily.scale(gasButton, layerScale/2);
 
-        GDXUtilily.setPosCentr(upgradesButton, bg.getWidth() * 0.18f, bg.getHeight() * 0.47f);
-        GDXUtilily.setPosCentr(unitsButton, bg.getWidth() * 0.5f, bg.getHeight() * 0.47f);
-        GDXUtilily.setPosCentr(gasButton, bg.getWidth() * 0.82f, bg.getHeight() * 0.47f);
+        GDXUtilily.setPosCentr(upgradesButton, bg.getWidth() * 0.18f, bg.getHeight() * 0.27f);
+        GDXUtilily.setPosCentr(unitsButton, bg.getWidth() * 0.5f, bg.getHeight() * 0.27f);
+        GDXUtilily.setPosCentr(gasButton, bg.getWidth() * 0.82f, bg.getHeight() * 0.27f);
 
         upgradesButton.setVisible(false);
         unitsButton.setVisible(false);
@@ -94,7 +94,7 @@ public class MainLayer implements UILayer {
         unitsButton.setVisible(visible);
         gasButton.setVisible(visible);
 
-        if(visible) {
+        if (visible) {
             upgradesButton.addListener(upgradesButtonListener);
             unitsButton.addListener(unitsButtonListener);
             gasButton.addListener(gasButtonListener);
