@@ -53,7 +53,7 @@ public class UnitValues {
         private Unit0Values() {
             price = 120;
             lives = 60;
-            damage = 5;
+            damage = 30;
             atk_range = 0; // 0 - ближний бой
             atk_speed = 300; // раз в X ms
             walk_speed = 20; // виртуальных px/s
