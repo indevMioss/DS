@@ -57,7 +57,7 @@ public class UI {
     public GasLayer gasLayer;
 
     public LivesAnimation livesAnimation;
-    private WaveTimer waveTimer;
+    public WaveTimer waveTimer;
 
     private ImageButton infoButton;
     private ImageButton backButton;

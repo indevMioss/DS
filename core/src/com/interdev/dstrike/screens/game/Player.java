@@ -24,9 +24,11 @@ public class Player {
     private Stage stage;
 
     public PackedCell[][] packedCells;
+    private GameScreen gameScreenRef;
 
     public Player(GameScreen gameScreen) {
-        this.stage = gameScreen.mainStage;
+        this.gameScreenRef = gameScreen;
+        this.stage = gameScreenRef.mainStage;
 
         myPersonalFieldUnitsHashMap = new HashMap<Integer, PassiveUnit>();
 
@@ -62,7 +64,7 @@ public class Player {
     }
 
     public void onPacketWaveSpawned() {
-        Log.info("wave spawned");
+        gameScreenRef.ui.waveTimer.onWaveSpawned();
     }
 
 
