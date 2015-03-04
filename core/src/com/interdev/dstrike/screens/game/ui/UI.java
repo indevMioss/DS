@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
-import com.interdev.dstrike.screens.GDXUtilily;
+import com.interdev.dstrike.screens.Utils.GDXUtilily;
 import com.interdev.dstrike.screens.game.GameScreen;
 import com.interdev.dstrike.screens.game.Player;
 import com.interdev.dstrike.screens.game.ui.layers.UILayer;

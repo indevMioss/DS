@@ -1,4 +1,4 @@
-package com.interdev.dstrike.screens;
+package com.interdev.dstrike.screens.Utils;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
