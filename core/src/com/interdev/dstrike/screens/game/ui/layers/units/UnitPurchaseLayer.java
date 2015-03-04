@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.Main;
-import com.interdev.dstrike.screens.GDXUtilily;
+import com.interdev.dstrike.screens.Utils.GDXUtilily;
 import com.interdev.dstrike.screens.game.GameScreen;
 import com.interdev.dstrike.screens.game.PlayerValues;
 import com.interdev.dstrike.screens.game.ui.UI;
