@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -15,7 +14,6 @@ import com.interdev.dstrike.screens.game.ui.layers.UILayer;
 
 public class MainLayer implements UILayer {
 
-    private UI ui;
     private Stage stage;
 
     private final ClickListener upgradesButtonListener;
@@ -27,8 +25,7 @@ public class MainLayer implements UILayer {
     public ImageButton gasButton;
 
 
-    public MainLayer(final UI ui, final Image bg, float layerScale) {
-        this.ui = ui;
+    public MainLayer(final UI ui) {
         this.stage = ui.stage;
 
         TextureRegion upgradesButtonTR = new TextureRegion(new Texture(Gdx.files.internal("ui/upgrades_button.png")));
@@ -51,32 +48,32 @@ public class MainLayer implements UILayer {
 
         upgradesButtonListener = new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 ui.setUiLayer(UI.UiLayers.UPGRADES);
             }
         };
 
         unitsButtonListener = new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 ui.setUiLayer(UI.UiLayers.UNITS);
             }
         };
 
         gasButtonListener = new ClickListener() {
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            public void clicked(InputEvent event, float x, float y) {
                 ui.setUiLayer(UI.UiLayers.GAS);
             }
         };
 
-        GDXUtilily.scale(upgradesButton, layerScale);
-        GDXUtilily.scale(unitsButton, layerScale);
-        GDXUtilily.scale(gasButton, layerScale);
+        GDXUtilily.scale(upgradesButton, ui.layersScale/2);
+        GDXUtilily.scale(unitsButton, ui.layersScale/2);
+        GDXUtilily.scale(gasButton, ui.layersScale/2);
 
-        GDXUtilily.setPosCentr(upgradesButton, bg.getWidth() * 0.18f, bg.getHeight() * 0.47f);
-        GDXUtilily.setPosCentr(unitsButton, bg.getWidth() * 0.5f, bg.getHeight() * 0.47f);
-        GDXUtilily.setPosCentr(gasButton, bg.getWidth() * 0.82f, bg.getHeight() * 0.47f);
+        GDXUtilily.setPosCentr(upgradesButton, ui.bg.getWidth() * 0.18f, ui.bg.getHeight() * 0.27f);
+        GDXUtilily.setPosCentr(unitsButton, ui.bg.getWidth() * 0.5f, ui.bg.getHeight() * 0.27f);
+        GDXUtilily.setPosCentr(gasButton, ui.bg.getWidth() * 0.82f, ui.bg.getHeight() * 0.27f);
 
         upgradesButton.setVisible(false);
         unitsButton.setVisible(false);
@@ -94,7 +91,7 @@ public class MainLayer implements UILayer {
         unitsButton.setVisible(visible);
         gasButton.setVisible(visible);
 
-        if(visible) {
+        if (visible) {
             upgradesButton.addListener(upgradesButtonListener);
             unitsButton.addListener(unitsButtonListener);
             gasButton.addListener(gasButtonListener);

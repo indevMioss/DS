@@ -29,7 +29,7 @@ public class PassiveUnit extends Actor {
         lives = unitType.lives;
         damage = unitType.damage;
         atk_range = unitType.atk_range;
-        atk_speed = unitType.atk_speed;
+        atk_speed = unitType.atk_interval;
         walk_speed = unitType.walk_speed;
 
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal(unitType.texturePath)));

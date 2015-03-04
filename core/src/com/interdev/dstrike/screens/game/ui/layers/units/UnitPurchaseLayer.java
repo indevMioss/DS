@@ -18,7 +18,6 @@ import com.interdev.dstrike.screens.game.ui.layers.UILayer;
 
 public class UnitPurchaseLayer implements UILayer {
 
-    private UI ui;
     private Stage stage;
     private InputListener inputListener;
 
@@ -41,8 +40,7 @@ public class UnitPurchaseLayer implements UILayer {
     private SelectionSystem selectionSystem;
 
 
-    public UnitPurchaseLayer(final UI ui, final Image bg, float layerScale, final float safeHeight) {
-        this.ui = ui;
+    public UnitPurchaseLayer(final UI ui) {
         this.stage = ui.stage;
 
         selectionSystem = new SelectionSystem(ui);
@@ -50,8 +48,8 @@ public class UnitPurchaseLayer implements UILayer {
         unitImages = new UnitImages();
 
         purchaseButton = new Image(new Texture(Gdx.files.internal("ui/unit_purchase_button.png")));
-        GDXUtilily.scale(purchaseButton, layerScale);
-        GDXUtilily.setPosCentr(purchaseButton, bg.getWidth()/2, bg.getHeight()*0.3f);
+        GDXUtilily.scale(purchaseButton, ui.layersScale);
+        GDXUtilily.setPosCentr(purchaseButton, ui.bg.getWidth()/2,  ui.bg.getHeight()*0.3f);
         purchaseButton.setColor(1f,1f,1f,0f);
         purchaseButton.setVisible(false);
         stage.addActor(purchaseButton);
@@ -87,7 +85,7 @@ public class UnitPurchaseLayer implements UILayer {
                     float actualX = ((x) * purchaseButton.getScaleX() + purchaseButton.getX());
                     float actualY = ((y) * purchaseButton.getScaleY() + purchaseButton.getY());
                     pickedUnitImage.setPosition(actualX - pickedUnitImage.getWidth() * pickedUnitImage.getScaleX() / 2, actualY - pickedUnitImage.getHeight() * pickedUnitImage.getScaleY() / 2);
-                    if (actualY > safeHeight) {
+                    if (actualY > UI.BG_SAFE_HEIGHT) {
                         touchUnprojectedVector = Main.gameScreenReference.camera.unproject(new Vector3(actualX, Main.gameScreenReference.virutalHeight - actualY, 0));
 
                         if (touchUnprojectedVector.x > getPersonalFieldBorder && touchUnprojectedVector.x < personalFieldWidth - getPersonalFieldBorder &&

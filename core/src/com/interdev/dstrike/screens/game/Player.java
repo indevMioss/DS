@@ -25,8 +25,8 @@ public class Player {
 
     public PackedCell[][] packedCells;
 
-    public Player(Stage stage) {
-        this.stage = stage;
+    public Player(GameScreen gameScreen) {
+        this.stage = gameScreen.mainStage;
 
         myPersonalFieldUnitsHashMap = new HashMap<Integer, PassiveUnit>();
 

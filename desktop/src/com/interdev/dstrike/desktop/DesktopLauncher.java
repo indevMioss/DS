@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "..~='DESERT STRIKE'=~..";
 		config.height = 960;
-		config.width = 576;
+		config.width = 540;
 		new LwjglApplication(new Main(), config);
 	}
 }

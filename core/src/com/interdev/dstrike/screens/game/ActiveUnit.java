@@ -45,7 +45,6 @@ public class ActiveUnit extends Actor {
         lastX = targetX;
         lastY = targetY;
 
-
         targetX = x;
         targetY = y;
 
