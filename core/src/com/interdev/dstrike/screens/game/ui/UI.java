@@ -1,7 +1,6 @@
 package com.interdev.dstrike.screens.game.ui;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,8 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.interdev.dstrike.screens.GDXUtilily;
+import com.interdev.dstrike.screens.game.GameScreen;
 import com.interdev.dstrike.screens.game.Player;
 import com.interdev.dstrike.screens.game.ui.layers.UILayer;
+import com.interdev.dstrike.screens.game.ui.layers.WaveTimer;
 import com.interdev.dstrike.screens.game.ui.layers.gas.GasLayer;
 import com.interdev.dstrike.screens.game.ui.layers.main.MainLayer;
 import com.interdev.dstrike.screens.game.ui.layers.units.UnitPurchaseLayer;
@@ -29,46 +30,44 @@ public class UI {
     public final static int MONEY_FONT_SIZE = 42;
     public final static int ICONS_FONT_SIZE = 36;
 
+    public float virtualWidth;
+
+    public float layersScale;
+
+    public TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui/ui3.txt"));
+    public Array<TextureAtlas.AtlasRegion> livesTextureArray = textureAtlas.findRegions("lives1");
+    public Image bg = new Image(textureAtlas.findRegion("bg"));
+    public Image glass = new Image(textureAtlas.findRegion("glass"));
+
+    private SpriteBatch uiBatch = new SpriteBatch();
+    public Stage stage;
+
     public BitmapFont moneyFont;
     public BitmapFont iconsFont;
     private float moneyTextWidth;
     private float moneyTextHeight;
 
     public enum UiLayers {MAIN, UPGRADES, UNITS, GAS;}
-
     public UiLayers currentLayerName;
     public UILayer currentLayer;
-
-    public final float virtualWidth;
-
-
-    private SpriteBatch uiBatch = new SpriteBatch();
 
     public MainLayer mainLayer;
     public UnitPurchaseLayer unitPurchaseLayer;
     public UpgradesLayer upgradesLayer;
     public GasLayer gasLayer;
 
-    public float layersScale;
-
-    public Stage stage;
-
-    public TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui/ui2.txt"));
-    public Array<TextureAtlas.AtlasRegion> livesTextureArray = textureAtlas.findRegions("lives1");
     public LivesAnimation livesAnimation;
-
-    public Image bg = new Image(textureAtlas.findRegion("bg"));
-    public Image glass = new Image(textureAtlas.findRegion("glass"));
+    private WaveTimer waveTimer;
 
     private ImageButton infoButton;
     private ImageButton backButton;
 
 
-    public UI(float virtualWidth, InputMultiplexer inputMultiplexer) {
-        this.virtualWidth = virtualWidth;
+    public UI(GameScreen gameScreen) {
+        virtualWidth = gameScreen.virutalWidth;
         layersScale = virtualWidth / bg.getWidth();
         stage = new Stage();
-        inputMultiplexer.addProcessor(stage);
+        gameScreen.inputMultiplexer.addProcessor(stage);
 
         GDXUtilily.scale(bg, layersScale);
         stage.addActor(bg);
@@ -81,6 +80,8 @@ public class UI {
 
         createLivesBar();
 
+        waveTimer = new WaveTimer(this);
+
         createLayers();
 
         setUiLayer(UiLayers.MAIN);
@@ -88,10 +89,10 @@ public class UI {
     }
 
     private void createLayers() {
-        mainLayer = new MainLayer(this, bg, layersScale);
-        upgradesLayer = new UpgradesLayer(this, bg, layersScale);
-        gasLayer = new GasLayer(this, bg, layersScale);
-        unitPurchaseLayer = new UnitPurchaseLayer(this, bg, layersScale, BG_SAFE_HEIGHT * layersScale);
+        mainLayer = new MainLayer(this);
+        upgradesLayer = new UpgradesLayer(this);
+        gasLayer = new GasLayer(this);
+        unitPurchaseLayer = new UnitPurchaseLayer(this);
     }
 
     private void createLivesBar() {
@@ -167,6 +168,7 @@ public class UI {
         livesAnimation.draw(deltaTime, uiBatch);
         glass.draw(uiBatch, 1f);
         moneyFont.draw(uiBatch, String.valueOf(Player.money), bg.getWidth() * 0.49f - moneyTextWidth / 2, bg.getHeight() * 0.79f + moneyTextHeight / 2);
+        waveTimer.draw(deltaTime, uiBatch);
         uiBatch.end();
 
         if (currentLayer.equals(unitPurchaseLayer)) {

@@ -39,15 +39,16 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
     private MultipleVirtualViewportBuilder multipleVirtualViewportBuilder;
     private VirtualViewport virtualViewport;
+
     public OrthographicCameraWithVirtualViewport camera;
-    private InputMultiplexer inputMultiplexer;
+    public InputMultiplexer inputMultiplexer;
 
     private Texture battlefieldBgTexture = new Texture(Gdx.files.internal("bg_tile.jpg"));
     private Texture platformTexture = new Texture(Gdx.files.internal("platform.jpg"));
     private Texture platformTopTexture = new Texture(Gdx.files.internal("platform_top.png"));
 
 
-    private Stage mainStage;
+    public Stage mainStage;
     private Base myBase, enemyBase;
 
     private Texture cellTexture = new Texture(Gdx.files.internal("cell.png"));
@@ -105,10 +106,10 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         enemyBase.setPosition(totalFieldWidth / 2, totalFieldHeight - personalFieldHeight * basesOffset);
         mainStage.addActor(enemyBase);
 
-        player = new Player(mainStage);
+        player = new Player(this);
 
         inputMultiplexer = new InputMultiplexer();
-        ui = new UI(virutalWidth, inputMultiplexer);
+        ui = new UI(this);
         inputMultiplexer.addProcessor(new GestureDetector(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
 

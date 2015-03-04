@@ -1,6 +1,9 @@
 package com.interdev.dstrike.screens.game;
 
 public final class PlayerValues {
+    public static final float WAVE_SPAWN_INTERVAL = 20000;
+
+
     public static final float INCOME_UPGRADE_PRICE = 100;
 
     public static final int BASE_START_LIVES = 5000;
