@@ -1,0 +1,298 @@
+ui3.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+lives1
+  rotate: false
+  xy: 724, 48
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 7
+lives1
+  rotate: false
+  xy: 724, 186
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 19
+lives1
+  rotate: false
+  xy: 1243, 278
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 12
+timer
+  rotate: false
+  xy: 1281, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 12
+info_button2
+  rotate: false
+  xy: 1950, 304
+  size: 87, 88
+  orig: 87, 88
+  offset: 0, 0
+  index: -1
+lives1
+  rotate: false
+  xy: 1243, 370
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 1
+lives1
+  rotate: false
+  xy: 1243, 324
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 11
+timer
+  rotate: false
+  xy: 1187, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 13
+timer
+  rotate: false
+  xy: 1563, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 1
+lives1
+  rotate: false
+  xy: 1243, 48
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 4
+lives1
+  rotate: false
+  xy: 1243, 186
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 16
+timer
+  rotate: false
+  xy: 1762, 304
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 8
+lives1
+  rotate: false
+  xy: 724, 2
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 9
+bg
+  rotate: false
+  xy: 2, 2
+  size: 720, 381
+  orig: 720, 381
+  offset: 0, 0
+  index: -1
+lives1
+  rotate: false
+  xy: 1243, 232
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 14
+timer
+  rotate: false
+  xy: 1093, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 14
+lives1
+  rotate: false
+  xy: 724, 140
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 3
+timer
+  rotate: false
+  xy: 1762, 210
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 9
+back_button2
+  rotate: false
+  xy: 1657, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: -1
+lives1
+  rotate: false
+  xy: 724, 324
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 13
+timer
+  rotate: false
+  xy: 999, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 15
+timer
+  rotate: false
+  xy: 623, 385
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 4
+lives1
+  rotate: false
+  xy: 1243, 140
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 18
+lives1
+  rotate: false
+  xy: 1243, 2
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 6
+timer
+  rotate: false
+  xy: 1856, 304
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 6
+glass
+  rotate: false
+  xy: 2, 385
+  size: 525, 53
+  orig: 525, 53
+  offset: 0, 0
+  index: -1
+timer
+  rotate: false
+  xy: 905, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 16
+timer
+  rotate: false
+  xy: 529, 385
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 5
+lives1
+  rotate: false
+  xy: 724, 94
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 5
+lives1
+  rotate: false
+  xy: 724, 232
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 17
+timer
+  rotate: false
+  xy: 1856, 210
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 7
+lives1
+  rotate: false
+  xy: 724, 370
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 10
+timer
+  rotate: false
+  xy: 1469, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 10
+back_button
+  rotate: false
+  xy: 1950, 210
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: -1
+timer
+  rotate: false
+  xy: 811, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 2
+lives1
+  rotate: false
+  xy: 724, 278
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 15
+info_button
+  rotate: false
+  xy: 1762, 398
+  size: 87, 88
+  orig: 87, 88
+  offset: 0, 0
+  index: -1
+lives1
+  rotate: false
+  xy: 2, 440
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 8
+timer
+  rotate: false
+  xy: 1375, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 11
+icon
+  rotate: false
+  xy: 1762, 2
+  size: 206, 206
+  orig: 206, 206
+  offset: 0, 0
+  index: -1
+timer
+  rotate: false
+  xy: 717, 416
+  size: 92, 92
+  orig: 92, 92
+  offset: 0, 0
+  index: 3
+lives1
+  rotate: false
+  xy: 1243, 94
+  size: 517, 44
+  orig: 519, 46
+  offset: 1, 1
+  index: 2
