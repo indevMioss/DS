@@ -24,7 +24,7 @@ public class Main extends Game {
 		dsClient = new DSClient();
 	//	Log.set(Log.LEVEL_DEBUG);
 
-		ScreenManager.getInstance().show(Screens.START_MENU);
+		ScreenManager.getInstance().show(Screens.GAME);
 	}
 
 	@Override

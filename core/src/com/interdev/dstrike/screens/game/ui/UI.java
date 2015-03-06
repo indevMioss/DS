@@ -96,7 +96,7 @@ public class UI {
     }
 
     private void createLivesBar() {
-        livesAnimation = new LivesAnimation(0.07f, livesTextureArray, Animation.PlayMode.LOOP);
+        livesAnimation = new LivesAnimation(0.05f, livesTextureArray, Animation.PlayMode.LOOP);
         livesAnimation.setScale(layersScale);
         livesAnimation.setCenterPos(bg.getWidth() * 0.5f, bg.getHeight() * 0.605f);
 

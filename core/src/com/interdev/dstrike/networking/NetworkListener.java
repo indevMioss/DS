@@ -36,6 +36,7 @@ public class NetworkListener extends Listener {
         } else if(obj instanceof Packet.PacketRoomReady) {
             onPacketRoomReady((Packet.PacketRoomReady) obj);
         }
+
         if (Main.gameScreenReference != null) {
             if (obj instanceof Packet.PacketWaveSpawned) {
                 Main.gameScreenReference.player.onPacketWaveSpawned();
@@ -49,6 +50,8 @@ public class NetworkListener extends Listener {
                 Main.gameScreenReference.player.onPacketAnswerUpgrade(((Packet.PacketAnswerUpgrade) obj).answer);
             }  else if (obj instanceof Packet.PacketCellsDebug) {
                 Main.gameScreenReference.player.onPacketCellsDebug(((Packet.PacketCellsDebug) obj).cells);
+            } else if (obj instanceof  Packet.PacketRoomDestroyed) {
+                Main.gameScreenReference.player.onPacketRoomDestroyed();
             }
         }
     }

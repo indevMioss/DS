@@ -144,4 +144,8 @@ public class Player {
     public void onPacketCellsDebug(PackedCell[][] cells) {
         packedCells = cells;
     }
+
+    public void onPacketRoomDestroyed() {
+        System.out.println("ROOM DESTROYED");
+    }
 }
