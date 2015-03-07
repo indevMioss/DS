@@ -47,7 +47,7 @@ public class DSClient {
 
         kryo.register(PackedUnit.class);
         kryo.register(PackedUnit[].class);
-        kryo.register(Packet.PacketBattlefieldUnitsUpdate.class);
+        kryo.register(Packet.PacketGameUpdate.class);
         kryo.register(Packet.PacketWaveSpawned.class);
         kryo.register(Packet.PacketAnswerUnitPurchase.class);
         kryo.register(Packet.PacketAnswerUnitSell.class);

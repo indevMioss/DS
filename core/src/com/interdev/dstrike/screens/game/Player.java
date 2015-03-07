@@ -68,8 +68,8 @@ public class Player {
     }
 
 
-    public void onPacketBattlefieldUpdate(Packet.PacketBattlefieldUnitsUpdate packet) {
-
+    public void onPacketBattlefieldUpdate(Packet.PacketGameUpdate packet) {
+        money = packet.money;
         PackedUnit[] player1PackedUnits = packet.Player1PackedUnits;
         PackedUnit[] player2PackedUnits = packet.Player2PackedUnits;
 

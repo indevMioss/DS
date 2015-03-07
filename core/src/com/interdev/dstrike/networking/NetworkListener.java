@@ -40,8 +40,8 @@ public class NetworkListener extends Listener {
         if (Main.gameScreenReference != null) {
             if (obj instanceof Packet.PacketWaveSpawned) {
                 Main.gameScreenReference.player.onPacketWaveSpawned();
-            } else if (obj instanceof Packet.PacketBattlefieldUnitsUpdate) {
-                onPacketPacketBattlefieldUnitsUpdate((Packet.PacketBattlefieldUnitsUpdate) obj);
+            } else if (obj instanceof Packet.PacketGameUpdate) {
+                onPacketPacketBattlefieldUnitsUpdate((Packet.PacketGameUpdate) obj);
             } else if (obj instanceof Packet.PacketAnswerUnitPurchase) {
                 onPacketAnswerUnitPurchase(((Packet.PacketAnswerUnitPurchase) obj));
             } else if (obj instanceof Packet.PacketAnswerUnitSell) {
@@ -82,7 +82,7 @@ public class NetworkListener extends Listener {
     }
 
 
-    private void onPacketPacketBattlefieldUnitsUpdate(final Packet.PacketBattlefieldUnitsUpdate packet) {
+    private void onPacketPacketBattlefieldUnitsUpdate(final Packet.PacketGameUpdate packet) {
         new Thread(new Runnable() {
             @Override
             public void run() {

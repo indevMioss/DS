@@ -1,4 +1,4 @@
-package com.interdev.dstrike.screens.Utils;
+package com.interdev.dstrike.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.interdev.dstrike.Main;
+import com.interdev.dstrike.screens.Utils.TextureButton;
 
 
 /**
