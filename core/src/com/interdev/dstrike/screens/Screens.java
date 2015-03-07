@@ -1,6 +1,7 @@
 package com.interdev.dstrike.screens;
 
 import com.badlogic.gdx.Screen;
+import com.interdev.dstrike.screens.Utils.AuthorizationScreen;
 import com.interdev.dstrike.screens.game.GameScreen;
 
 public enum Screens {
@@ -57,6 +58,13 @@ public enum Screens {
         @Override
         protected Screen getScreenInstance() {
             return new StartMenuScreen();
+        }
+    },
+
+    AUTHORIZATION {
+        @Override
+        protected Screen getScreenInstance() {
+            return new AuthorizationScreen();
         }
     };
 
