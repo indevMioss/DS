@@ -13,8 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.interdev.dstrike.Main;
-import com.interdev.dstrike.screens.ScreenManager;
-import com.interdev.dstrike.screens.Screens;
 
 
 /**
@@ -29,7 +27,7 @@ public class AuthorizationScreen implements Screen {
     private Label passwordLbl;
     private Label loginLbl;
 
-    private TextField userNameTxtField;
+    private TextField userIdTxtField;
     private TextField passwordTxtField;
 
     private CheckBox rememberPassCheckBox;
@@ -47,7 +45,7 @@ public class AuthorizationScreen implements Screen {
         passwordLbl = new Label("Password:", uiSkin);
         loginLbl = new Label("Log in to your account", uiSkin);
 
-        userNameTxtField = new TextField("NewPlayer", uiSkin);
+        userIdTxtField = new TextField("E-mail", uiSkin);
         passwordTxtField = new TextField("", uiSkin);
 
         rememberPassCheckBox = new CheckBox("Remember me on this device", uiSkin);
@@ -55,9 +53,9 @@ public class AuthorizationScreen implements Screen {
         userIdLbl.setPosition(Main.screen_width / 2 - userIdLbl.getWidth() * 2, Main.screen_height / 2 - userIdLbl.getHeight() / 2);
         loginLbl.setPosition(userIdLbl.getX() - userIdLbl.getWidth() / 4, userIdLbl.getY() + userIdLbl.getHeight() * 2);
         passwordLbl.setPosition(userIdLbl.getX(), userIdLbl.getY() - userIdLbl.getHeight() * 2.3f);
-        userNameTxtField.setPosition(userIdLbl.getX() + userIdLbl.getWidth() * 1.5f, userIdLbl.getY() - userIdLbl.getHeight() / 2);
-        userNameTxtField.setSize(300, 40);
-        passwordTxtField.setPosition(userNameTxtField.getX(), userNameTxtField.getY() - userNameTxtField.getHeight() * 1.3f);
+        userIdTxtField.setPosition(userIdLbl.getX() + userIdLbl.getWidth() * 1.5f, userIdLbl.getY() - userIdLbl.getHeight() / 2);
+        userIdTxtField.setSize(300, 40);
+        passwordTxtField.setPosition(userIdTxtField.getX(), userIdTxtField.getY() - userIdTxtField.getHeight() * 1.3f);
         passwordTxtField.setSize(300, 40);
         passwordTxtField.setPasswordCharacter('*');
         passwordTxtField.setPasswordMode(true);
@@ -84,7 +82,7 @@ public class AuthorizationScreen implements Screen {
         stage.addActor(userIdLbl);
         stage.addActor(loginLbl);
         stage.addActor(passwordLbl);
-        stage.addActor(userNameTxtField);
+        stage.addActor(userIdTxtField);
         stage.addActor(passwordTxtField);
         stage.addActor(rememberPassCheckBox);
         stage.addActor(loginBtn);

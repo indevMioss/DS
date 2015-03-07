@@ -14,6 +14,9 @@ public class Main extends Game {
 	public static float resolution_scale_componet;
 	public static float screen_width, screen_height;
 
+	public static float soundVolume = 1;
+	public static float musicVolume = 1;
+
 
 	@Override
 	public void create () {
