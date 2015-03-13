@@ -12,8 +12,10 @@ import java.util.HashMap;
 public class Player {
     public static int money = PlayerValues.START_MONEY;
 
-    public HashMap<Integer, PassiveUnit> myPersonalFieldUnitsHashMap;
+    public static float myLives = PlayerValues.BASE_START_LIVES - 700;
+    public static float enemyLives = PlayerValues.BASE_START_LIVES - 700;
 
+    public HashMap<Integer, PassiveUnit> myPersonalFieldUnitsHashMap;
     public HashMap<Integer, ActiveUnit> myUnitsHashMap;
     public HashMap<Integer, ActiveUnit> enemyUnitsHashMap;
 
@@ -56,6 +58,7 @@ public class Player {
             PassiveUnit unit = new PassiveUnit(tempRequestedUnitX, tempRequestedUnitY, tempRequestedUnitType);
             stage.addActor(unit);
             myPersonalFieldUnitsHashMap.put(id, unit);
+            gameScreenRef.ui.unitPurchaseLayer.onUnitPurchased(tempRequestedUnitX, tempRequestedUnitY);
             Log.info("unit request answer: OK");
         } else {
             Log.info("unit request answer: ID = 0");

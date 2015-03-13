@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class DSClient {
     public static int port = 54555;
     public static String serverIP = "127.0.0.1";
-    public static int connectionTimeout = 5000; //ms
+    public static int connectionTimeout = 20000; //ms
 
     public Client client;
     public Scanner scanner;

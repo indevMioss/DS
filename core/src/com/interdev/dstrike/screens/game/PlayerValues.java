@@ -10,7 +10,7 @@ public final class PlayerValues {
     public static final int BASE_DAMAGE = 20;
     public static final int START_MONEY = 4000;
 
-    public static final float PERSONAL_FIELD_BORDER = 0.05f;
+    public static final float PERSONAL_FIELD_BORDER = 0.01f;
 
     //скорость добычи на X lvl (ресурса в сек.)
     public static final int INCOME_LVL1 = 10;

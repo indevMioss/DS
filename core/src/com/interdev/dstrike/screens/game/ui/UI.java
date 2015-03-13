@@ -2,7 +2,6 @@ package com.interdev.dstrike.screens.game.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.interdev.dstrike.screens.Utils.GDXUtilily;
 import com.interdev.dstrike.screens.game.GameScreen;
 import com.interdev.dstrike.screens.game.Player;
@@ -25,7 +23,8 @@ import com.interdev.dstrike.screens.game.ui.layers.units.UnitPurchaseLayer;
 import com.interdev.dstrike.screens.game.ui.layers.upgrades.UpgradesLayer;
 
 public class UI {
-    public final static int BG_SAFE_HEIGHT = 316;
+    public static float BG_SAFE_HEIGHT_SCALED;
+    private static final int BG_SAFE_HEIGHT = 316;
 
     public final static int MONEY_FONT_SIZE = 42;
     public final static int ICONS_FONT_SIZE = 36;
@@ -35,7 +34,6 @@ public class UI {
     public float layersScale;
 
     public TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui/ui3.txt"));
-    public Array<TextureAtlas.AtlasRegion> livesTextureArray = textureAtlas.findRegions("lives1");
     public Image bg = new Image(textureAtlas.findRegion("bg"));
     public Image glass = new Image(textureAtlas.findRegion("glass"));
 
@@ -62,12 +60,16 @@ public class UI {
     private ImageButton infoButton;
     private ImageButton backButton;
 
+    public GameScreen gameScreenRef;
+
 
     public UI(GameScreen gameScreen) {
-        virtualWidth = gameScreen.virutalWidth;
+        this.gameScreenRef = gameScreen;
+        virtualWidth = gameScreenRef.virutalWidth;
         layersScale = virtualWidth / bg.getWidth();
+        BG_SAFE_HEIGHT_SCALED = BG_SAFE_HEIGHT*layersScale;
         stage = new Stage();
-        gameScreen.inputMultiplexer.addProcessor(stage);
+        gameScreenRef.inputMultiplexer.addProcessor(stage);
 
         GDXUtilily.scale(bg, layersScale);
         stage.addActor(bg);
@@ -84,7 +86,7 @@ public class UI {
 
         createLayers();
 
-        setUiLayer(UiLayers.MAIN);
+        setUiLayer(UiLayers.UNITS);
 
     }
 
@@ -96,12 +98,12 @@ public class UI {
     }
 
     private void createLivesBar() {
-        livesAnimation = new LivesAnimation(0.05f, livesTextureArray, Animation.PlayMode.LOOP);
+        livesAnimation = new LivesAnimation(this);
         livesAnimation.setScale(layersScale);
         livesAnimation.setCenterPos(bg.getWidth() * 0.5f, bg.getHeight() * 0.605f);
 
         GDXUtilily.scale(glass, layersScale);
-        GDXUtilily.setPosCentr(glass, bg.getWidth() * 0.5f, bg.getHeight() * 0.605f);
+        GDXUtilily.setPosCentr(glass, bg.getWidth() * 0.5f, bg.getHeight() * 0.609f);
         //raw drawing, no attaching to the stage
     }
 
