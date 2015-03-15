@@ -12,8 +12,8 @@ import java.util.HashMap;
 public class Player {
     public static int money = PlayerValues.START_MONEY;
 
-    public static float myLives = PlayerValues.BASE_START_LIVES - 700;
-    public static float enemyLives = PlayerValues.BASE_START_LIVES - 700;
+    public static float myLives = PlayerValues.BASE_START_LIVES - 1300;
+    public static float enemyLives = PlayerValues.BASE_START_LIVES - 3700;
 
     public HashMap<Integer, PassiveUnit> myPersonalFieldUnitsHashMap;
     public HashMap<Integer, ActiveUnit> myUnitsHashMap;

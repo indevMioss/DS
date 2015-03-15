@@ -34,8 +34,12 @@ public class UI {
     public float layersScale;
 
     public TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ui/ui3.txt"));
-    public Image bg = new Image(textureAtlas.findRegion("bg"));
-    public Image glass = new Image(textureAtlas.findRegion("glass"));
+
+    private Texture bgTR = new Texture(Gdx.files.internal("ui/bg1.png"));
+    private Texture glassTR = new Texture(Gdx.files.internal("ui/glass2.png"));
+
+    public Image bg;// = new Image(textureAtlas.findRegion("bg"));
+    public Image glass;// = new Image(textureAtlas.findRegion("glass"));
 
     private SpriteBatch uiBatch = new SpriteBatch();
     public Stage stage;
@@ -65,11 +69,19 @@ public class UI {
 
     public UI(GameScreen gameScreen) {
         this.gameScreenRef = gameScreen;
+
+        bgTR.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        glassTR.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
+        bg = new Image(bgTR);
+        glass = new Image(glassTR);
+
         virtualWidth = gameScreenRef.virutalWidth;
         layersScale = virtualWidth / bg.getWidth();
         BG_SAFE_HEIGHT_SCALED = BG_SAFE_HEIGHT*layersScale;
         stage = new Stage();
         gameScreenRef.inputMultiplexer.addProcessor(stage);
+
 
         GDXUtilily.scale(bg, layersScale);
         stage.addActor(bg);
