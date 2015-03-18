@@ -76,59 +76,64 @@ public class Player {
         PackedUnit[] player1PackedUnits = packet.Player1PackedUnits;
         PackedUnit[] player2PackedUnits = packet.Player2PackedUnits;
 
-        if (player1PackedUnits.length > 0) {
-            for (int i = 0; i < player1PackedUnits.length; i++) {
+        for (int i = 0; i < player1PackedUnits.length; i++) {
 
-                PackedUnit packedUnit = player1PackedUnits[i];
-                ActiveUnit unit;
+            PackedUnit packedUnit = player1PackedUnits[i];
+            ActiveUnit unit;
 
-                if (myUnitsHashMap.containsKey(packedUnit.id)) {
-                    unit = myUnitsHashMap.get(packedUnit.id);
-                } else {
-                    unit = new ActiveUnit(packedUnit.x, packedUnit.y, packedUnit.type, packedUnit.id);
-                    myUnitsHashMap.put(unit.id, unit);
-                    stage.addActor(unit);
-                }
+            if (myUnitsHashMap.containsKey(packedUnit.id)) {
+                unit = myUnitsHashMap.get(packedUnit.id);
+            } else {
+                unit = new ActiveUnit(packedUnit.x, packedUnit.y, packedUnit.type, packedUnit.id, gameScreenRef.bulletFactory);
+                myUnitsHashMap.put(unit.id, unit);
+                stage.addActor(unit);
+            }
 
-                unit.setTargetDestination(packedUnit.x, packedUnit.y);
-                unit.lives = packedUnit.lives;
-                unit.targetId = packedUnit.targetId;
+            unit.setTargetDestination(packedUnit.x, packedUnit.y);
+            unit.lives = packedUnit.lives;
 
-                if (unit.lives <= 0) {
-                    Log.info(" 1 my DEAD");
-                    unit.setVisible(false);
-                    myUnitsHashMap.remove(unit.id);
-                }
+            if (unit.targetId != packedUnit.targetId && enemyUnitsHashMap.containsKey(packedUnit.targetId)) {
+                unit.setTarget(enemyUnitsHashMap.get(packedUnit.targetId));
+            }
+
+            if (unit.lives <= 0) {
+                Log.info(" 1 my DEAD");
+                unit.setVisible(false);
+                unit.dispose();
+                myUnitsHashMap.remove(unit.id);
             }
         }
 
-        if (player2PackedUnits.length > 0) {
-            for (int i = 0; i < player2PackedUnits.length; i++) {
 
-                PackedUnit packedUnit = player2PackedUnits[i];
-                ActiveUnit unit;
+        for (int i = 0; i < player2PackedUnits.length; i++) {
 
-                if (enemyUnitsHashMap.containsKey(packedUnit.id)) {
-                    unit = enemyUnitsHashMap.get(packedUnit.id);
-                } else {
-                    unit = new ActiveUnit(packedUnit.x, packedUnit.y, packedUnit.type, packedUnit.id);
-                    enemyUnitsHashMap.put(unit.id, unit);
-                    stage.addActor(unit);
+            PackedUnit packedUnit = player2PackedUnits[i];
+            ActiveUnit unit;
 
-                }
+            if (enemyUnitsHashMap.containsKey(packedUnit.id)) {
+                unit = enemyUnitsHashMap.get(packedUnit.id);
+            } else {
+                unit = new ActiveUnit(packedUnit.x, packedUnit.y, packedUnit.type, packedUnit.id, gameScreenRef.bulletFactory);
+                enemyUnitsHashMap.put(unit.id, unit);
+                stage.addActor(unit);
 
-                unit.setTargetDestination(packedUnit.x, packedUnit.y);
-                unit.lives = packedUnit.lives;
-                unit.targetId = packedUnit.targetId;
+            }
 
-                if (unit.lives <= 0) {
-                    Log.info(" 1 his DEAD");
-                    unit.setVisible(false);
+            unit.setTargetDestination(packedUnit.x, packedUnit.y);
+            unit.lives = packedUnit.lives;
 
-                    enemyUnitsHashMap.remove(unit.id);
-                }
+            if (unit.targetId != packedUnit.targetId && myUnitsHashMap.containsKey(packedUnit.targetId)) {
+                unit.setTarget(myUnitsHashMap.get(packedUnit.targetId));
+            }
+
+            if (unit.lives <= 0) {
+                Log.info(" 1 his DEAD");
+                unit.setVisible(false);
+                unit.dispose();
+                enemyUnitsHashMap.remove(unit.id);
             }
         }
+
     }
 
 

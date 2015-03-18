@@ -7,13 +7,18 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.interdev.dstrike.screens.game.bullets.BulletFactory;
 
 public class ActiveUnit extends Actor {
 
     public short type;
     public int id;
-    public int targetId;
+
+    public int targetId = 0;
+    private ActiveUnit targetUnit;
+
     public short lives;
+    public float atkInterval;
 
     private float timeFromLastTargetXYUpdate = 0;
     private float lastX, lastY;
@@ -21,7 +26,11 @@ public class ActiveUnit extends Actor {
 
     private TextureRegion textureRegion;
 
-    public ActiveUnit(float x, float y, short type, int id) {
+    private BulletFactory bulletFactoryRef;
+
+    public ActiveUnit(float x, float y, short type, int id, BulletFactory bulletFactoryRef) {
+        this.bulletFactoryRef = bulletFactoryRef;
+
         this.type = type;
         this.id = id;
         setPosition(x, y);
@@ -32,6 +41,8 @@ public class ActiveUnit extends Actor {
         lastY = targetY;
 
         UnitValues.UnitVal unitType = UnitValues.getByType(type);
+
+        atkInterval = unitType.atk_interval;
 
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal(unitType.texturePath)));
         textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -68,4 +79,19 @@ public class ActiveUnit extends Actor {
         batch.draw(textureRegion, getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
+    public void setTarget(ActiveUnit target) {
+        if (targetUnit != null) {
+            bulletFactoryRef.disposeBondByShooter(this);
+        }
+        this.targetUnit = target;
+        this.targetId = target.id;
+
+        bulletFactoryRef.addBond(this, targetUnit);
+    }
+
+    public void dispose() {
+
+        bulletFactoryRef.disposeBondByShooter(this);
+        bulletFactoryRef.disposeBondByTarget(this);
+    }
 }

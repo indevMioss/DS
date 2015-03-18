@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.Main;
 import com.interdev.dstrike.networking.PackedCell;
+import com.interdev.dstrike.screens.game.bullets.BulletFactory;
 import com.interdev.dstrike.screens.game.camera.MultipleVirtualViewportBuilder;
 import com.interdev.dstrike.screens.game.camera.OrthographicCameraWithVirtualViewport;
 import com.interdev.dstrike.screens.game.camera.VirtualViewport;
@@ -30,6 +31,8 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
     public boolean screenLoaded = false;
 
     public Player player;
+    public BulletFactory bulletFactory;
+
     public UI ui;
     public float virutalWidth;
     public float virutalHeight;
@@ -67,7 +70,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         totalFieldWidth = battlefieldBgTexture.getWidth();
         totalFieldHeight = battlefieldBgTexture.getHeight() * BATTLE_FIELD_TILES + platformTexture.getHeight();
 
-        zoom = totalFieldWidth / virutalWidth;
+       zoom = 1.25f;// zoom = totalFieldWidth / virutalWidth; //Fitting zoom
 
         Log.info("virutalWidth " + virutalWidth + "  virutalHeight " + virutalHeight);
         Log.info("totalFieldWidth " + totalFieldWidth + "  totalFieldHeight " + totalFieldHeight);
@@ -107,6 +110,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage.addActor(enemyBase);
 
 
+
         player = new Player(this);
 
         inputMultiplexer = new InputMultiplexer();
@@ -115,6 +119,9 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         screenLoaded = true;
+
+
+        bulletFactory = new BulletFactory(mainStage);
     }
 
 
@@ -128,6 +135,8 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         mainStage.act(delta);
         mainStage.draw();
         drawCells(mainStage.getBatch());
+
+        bulletFactory.act(delta);
 
         ui.draw(delta);
 
