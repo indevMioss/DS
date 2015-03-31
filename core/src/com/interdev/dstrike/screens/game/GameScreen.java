@@ -19,9 +19,10 @@ import com.interdev.dstrike.screens.game.camera.MultipleVirtualViewportBuilder;
 import com.interdev.dstrike.screens.game.camera.OrthographicCameraWithVirtualViewport;
 import com.interdev.dstrike.screens.game.camera.VirtualViewport;
 import com.interdev.dstrike.screens.game.ui.UI;
+import com.interdev.dstrike.screens.game.units.Base;
 
 public class GameScreen implements Screen, GestureDetector.GestureListener {
-    public static int tickInterval = 0; //инициализируется повторно с сервера
+    public static int tickInterval = 0; //инициализируется с сервера
 
     public static final int BATTLE_FIELD_TILES = 2;
 
@@ -52,7 +53,7 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
 
     public Stage mainStage;
-    private Base myBase, enemyBase;
+    public Base myBase, enemyBase;
 
     private Texture cellTexture = new Texture(Gdx.files.internal("cell.png"));
     private Image cellImage = new Image(cellTexture);
@@ -70,7 +71,8 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         totalFieldWidth = battlefieldBgTexture.getWidth();
         totalFieldHeight = battlefieldBgTexture.getHeight() * BATTLE_FIELD_TILES + platformTexture.getHeight();
 
-       zoom = 1.25f;// zoom = totalFieldWidth / virutalWidth; //Fitting zoom
+        //zoom = 1.25f; //narrow zoom example
+        zoom = totalFieldWidth / virutalWidth; //Fitting zoom
 
         Log.info("virutalWidth " + virutalWidth + "  virutalHeight " + virutalHeight);
         Log.info("totalFieldWidth " + totalFieldWidth + "  totalFieldHeight " + totalFieldHeight);
@@ -99,16 +101,17 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         platformTop.setPosition(0, platform.getHeight());
         mainStage.addActor(platformTop);
 
+        bulletFactory = new BulletFactory(mainStage);
+
         float basesOffset = 0.2f;
-        myBase = new Base();
+        myBase = new Base(false, bulletFactory);
         myBase.setPosition(totalFieldWidth / 2, personalFieldHeight + personalFieldHeight * basesOffset);
         myBase.setRotation(180);
         mainStage.addActor(myBase);
 
-        enemyBase = new Base();
+        enemyBase = new Base(true, bulletFactory);
         enemyBase.setPosition(totalFieldWidth / 2, totalFieldHeight - personalFieldHeight * basesOffset);
         mainStage.addActor(enemyBase);
-
 
 
         player = new Player(this);
@@ -121,7 +124,6 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
         screenLoaded = true;
 
 
-        bulletFactory = new BulletFactory(mainStage);
     }
 
 

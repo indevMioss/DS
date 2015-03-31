@@ -8,6 +8,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.minlog.Log;
 import com.interdev.dstrike.Main;
 import com.interdev.dstrike.screens.game.GameScreen;
+import com.interdev.dstrike.screens.game.PlayerValues;
 
 public class NetworkListener extends Listener {
 
@@ -33,7 +34,7 @@ public class NetworkListener extends Listener {
             if (!answer) {
                 connection.close();
             }
-        } else if(obj instanceof Packet.PacketRoomReady) {
+        } else if (obj instanceof Packet.PacketRoomReady) {
             onPacketRoomReady((Packet.PacketRoomReady) obj);
         }
 
@@ -48,37 +49,46 @@ public class NetworkListener extends Listener {
                 Main.gameScreenReference.player.onPacketAnswerUnitSell(((Packet.PacketAnswerUnitSell) obj).answer);
             } else if (obj instanceof Packet.PacketAnswerUpgrade) {
                 Main.gameScreenReference.player.onPacketAnswerUpgrade(((Packet.PacketAnswerUpgrade) obj).answer);
-            }  else if (obj instanceof Packet.PacketCellsDebug) {
-                Main.gameScreenReference.player.onPacketCellsDebug(((Packet.PacketCellsDebug) obj).cells);
-            } else if (obj instanceof  Packet.PacketRoomDestroyed) {
+            } else if (obj instanceof Packet.PacketCellsDebug) {
+            //    Main.gameScreenReference.player.onPacketCellsDebug(((Packet.PacketCellsDebug) obj).cells); // <------ CELLS DEBUG
+            } else if (obj instanceof Packet.PacketRoomDestroyed) {
                 Main.gameScreenReference.player.onPacketRoomDestroyed();
             }
         }
     }
 
-    private void onPacketRoomReady(Packet.PacketRoomReady packet) {
-        GameScreen.tickInterval = packet.tickInterval;
-        if(Main.gameScreenReference != null && Main.gameScreenReference.screenLoaded) {
-            sendPacketReadyToPlay();
+    private void onPacketRoomReady(final Packet.PacketRoomReady packet) {
+        if (Main.gameScreenReference != null && Main.gameScreenReference.screenLoaded) {
+            onReady(packet);
         } else {
             final Timer timer = new Timer();
             timer.scheduleTask(new Timer.Task() {
                 @Override
                 public void run() {
-                    if(Main.gameScreenReference != null && Main.gameScreenReference.screenLoaded) {
-                        sendPacketReadyToPlay();
+                    if (Main.gameScreenReference != null && Main.gameScreenReference.screenLoaded) {
+                        onReady(packet);
                         timer.stop();
                     }
                 }
-            }, 2f);
+            }, 2f, 2f);
             timer.start();
         }
-
     }
 
-    private void sendPacketReadyToPlay() {
-        Packet.PacketReadyToPlay packet = new Packet.PacketReadyToPlay();
-        client.sendTCP(packet);
+    private void onReady(Packet.PacketRoomReady packet) {
+        GameScreen.tickInterval = packet.tickInterval;
+        System.out.println("GameScreen.tickInterval " + GameScreen.tickInterval);
+
+        if (packet.baseAtTheTop) {
+            PlayerValues.MY_BASE_ID = PlayerValues.TOP_BASE_ID;
+            PlayerValues.ENEMY_BASE_ID = PlayerValues.BOTTOM_BASE_ID;
+        } else {
+            PlayerValues.MY_BASE_ID = PlayerValues.BOTTOM_BASE_ID;
+            PlayerValues.ENEMY_BASE_ID = PlayerValues.TOP_BASE_ID;
+        }
+
+        Packet.PacketReadyToPlay packetReadyToPlay = new Packet.PacketReadyToPlay();
+        client.sendTCP(packetReadyToPlay);
     }
 
 

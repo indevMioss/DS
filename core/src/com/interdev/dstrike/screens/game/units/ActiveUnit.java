@@ -1,4 +1,4 @@
-package com.interdev.dstrike.screens.game;
+package com.interdev.dstrike.screens.game.units;
 
 
 import com.badlogic.gdx.Gdx;
@@ -7,20 +7,24 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.interdev.dstrike.screens.game.GameScreen;
 import com.interdev.dstrike.screens.game.bullets.BulletFactory;
 
-public class ActiveUnit extends Actor {
+public class ActiveUnit extends Actor implements Combative {
 
     public short type;
     public int id;
 
     public int targetId = 0;
-    private ActiveUnit targetUnit;
+    private Combative targetUnit;
 
     public short lives;
-    public float atkInterval;
+    private float atkInterval;
+    private int bulletType;
+
 
     private float timeFromLastTargetXYUpdate = 0;
+
     private float lastX, lastY;
     private float targetX, targetY;
 
@@ -43,6 +47,7 @@ public class ActiveUnit extends Actor {
         UnitValues.UnitVal unitType = UnitValues.getByType(type);
 
         atkInterval = unitType.atk_interval;
+        bulletType = unitType.bullet_type;
 
         textureRegion = new TextureRegion(new Texture(Gdx.files.internal(unitType.texturePath)));
         textureRegion.getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
@@ -79,12 +84,12 @@ public class ActiveUnit extends Actor {
         batch.draw(textureRegion, getX() - getWidth() / 2, getY() - getHeight() / 2, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
-    public void setTarget(ActiveUnit target) {
+    public void setTarget(Combative target) {
         if (targetUnit != null) {
             bulletFactoryRef.disposeBondByShooter(this);
         }
         this.targetUnit = target;
-        this.targetId = target.id;
+        this.targetId = target.getID();
 
         bulletFactoryRef.addBond(this, targetUnit);
     }
@@ -93,5 +98,20 @@ public class ActiveUnit extends Actor {
 
         bulletFactoryRef.disposeBondByShooter(this);
         bulletFactoryRef.disposeBondByTarget(this);
+    }
+
+    @Override
+    public int getID() {
+        return id;
+    }
+
+    @Override
+    public int getBulletType() {
+        return bulletType;
+    }
+
+    @Override
+    public float getAttackInterval() {
+        return atkInterval;
     }
 }

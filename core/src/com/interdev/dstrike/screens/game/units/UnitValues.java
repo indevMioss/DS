@@ -1,4 +1,4 @@
-package com.interdev.dstrike.screens.game;
+package com.interdev.dstrike.screens.game.units;
 
 
 public class UnitValues {
@@ -44,6 +44,8 @@ public class UnitValues {
         public short walk_speed; // виртуальных px/s
         public short texture_width;
 
+        public short bullet_type;
+
         public String texturePath;
         public String iconTexturePath;
 
@@ -58,6 +60,8 @@ public class UnitValues {
             atk_interval = 500; // раз в X ms
             walk_speed = 60; // виртуальных px/s
             texture_width = 64;
+
+            bullet_type = 2;
 
             texturePath = "unit0.png";
             iconTexturePath = "icon";

@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.Pool;
-import com.interdev.dstrike.screens.game.ActiveUnit;
+import com.interdev.dstrike.screens.game.units.Combative;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,7 +50,6 @@ public class BulletFactory {
         bullet.setRotation((float) Math.toDegrees(Math.atan2(startY - endY, startX - endX) - Math.PI/2));
         bullet.addAction(sequence(action, new Action() {
             public boolean act(float delta) {
-                System.out.println("action finished");
                 bulletPool.free(bullet);
                 return true;
             }
@@ -59,12 +58,12 @@ public class BulletFactory {
     }
 
 
-    public void addBond(ActiveUnit shooter, ActiveUnit target) {
+    public void addBond(Combative shooter, Combative target) {
         Bond bond = new Bond(shooter, target);
         bonds.add(bond);
     }
 
-    public void disposeBondByShooter(ActiveUnit shooter) {
+    public void disposeBondByShooter(Combative shooter) {
         Iterator<Bond> it = bonds.iterator();
         while (it.hasNext()) {
             Bond bond = it.next();
@@ -76,7 +75,7 @@ public class BulletFactory {
 
     }
 
-    public void disposeBondByTarget(ActiveUnit target) {
+    public void disposeBondByTarget(Combative target) {
         Iterator<Bond> it = bonds.iterator();
         while (it.hasNext()) {
             Bond bond = it.next();
@@ -87,24 +86,23 @@ public class BulletFactory {
     }
 
     public class Bond {
-        public ActiveUnit shooter;
-        public ActiveUnit target;
+        public Combative shooter;
+        public Combative target;
         private float timePassed = 999999f;
         private int bulletType;
         private float attackInterval;
 
-        public Bond(ActiveUnit shooter, ActiveUnit target) {
+        public Bond(Combative shooter, Combative target) {
             this.shooter = shooter;
             this.target = target;
-            bulletType = 2;//shooter.type;
-            attackInterval = (shooter.atkInterval / 2f) / 1000f; //convert to seconds [libgdx deltas are in seconds]
+            bulletType = shooter.getBulletType();
+            attackInterval = shooter.getAttackInterval() / 1000f; //convert to seconds [libgdx deltas are in seconds]
 
         }
 
         public void act(float deltaTime) {
             timePassed += deltaTime;
             if (timePassed >= attackInterval) {
-                System.out.println("bullet launched");
                 launchBullet(bulletType, shooter.getX(), shooter.getY(), target.getX(), target.getY());
                 timePassed = 0;
             }

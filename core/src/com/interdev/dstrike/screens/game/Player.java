@@ -6,14 +6,16 @@ import com.interdev.dstrike.Main;
 import com.interdev.dstrike.networking.PackedCell;
 import com.interdev.dstrike.networking.PackedUnit;
 import com.interdev.dstrike.networking.Packet;
+import com.interdev.dstrike.screens.game.units.ActiveUnit;
+import com.interdev.dstrike.screens.game.units.PassiveUnit;
 
 import java.util.HashMap;
 
 public class Player {
     public static int money = PlayerValues.START_MONEY;
 
-    public static float myLives = PlayerValues.BASE_START_LIVES - 1300;
-    public static float enemyLives = PlayerValues.BASE_START_LIVES - 3700;
+    public static float myLives = PlayerValues.BASE_START_LIVES;
+    public static float enemyLives = PlayerValues.BASE_START_LIVES;
 
     public HashMap<Integer, PassiveUnit> myPersonalFieldUnitsHashMap;
     public HashMap<Integer, ActiveUnit> myUnitsHashMap;
@@ -73,12 +75,13 @@ public class Player {
 
     public void onPacketBattlefieldUpdate(Packet.PacketGameUpdate packet) {
         money = packet.money;
+        myLives = packet.myBase.lives;
+        enemyLives = packet.enemyBase.lives;
+
         PackedUnit[] player1PackedUnits = packet.Player1PackedUnits;
         PackedUnit[] player2PackedUnits = packet.Player2PackedUnits;
 
-        for (int i = 0; i < player1PackedUnits.length; i++) {
-
-            PackedUnit packedUnit = player1PackedUnits[i];
+        for (PackedUnit packedUnit : player1PackedUnits) {
             ActiveUnit unit;
 
             if (myUnitsHashMap.containsKey(packedUnit.id)) {
@@ -92,12 +95,15 @@ public class Player {
             unit.setTargetDestination(packedUnit.x, packedUnit.y);
             unit.lives = packedUnit.lives;
 
-            if (unit.targetId != packedUnit.targetId && enemyUnitsHashMap.containsKey(packedUnit.targetId)) {
-                unit.setTarget(enemyUnitsHashMap.get(packedUnit.targetId));
+            if (unit.targetId != packedUnit.targetId) {
+                if (packedUnit.targetId == PlayerValues.ENEMY_BASE_ID) {
+                    unit.setTarget(gameScreenRef.enemyBase);
+                } else if (enemyUnitsHashMap.containsKey(packedUnit.targetId)) {
+                    unit.setTarget(enemyUnitsHashMap.get(packedUnit.targetId));
+                }
             }
 
             if (unit.lives <= 0) {
-                Log.info(" 1 my DEAD");
                 unit.setVisible(false);
                 unit.dispose();
                 myUnitsHashMap.remove(unit.id);
@@ -105,9 +111,7 @@ public class Player {
         }
 
 
-        for (int i = 0; i < player2PackedUnits.length; i++) {
-
-            PackedUnit packedUnit = player2PackedUnits[i];
+        for (PackedUnit packedUnit : player2PackedUnits) {
             ActiveUnit unit;
 
             if (enemyUnitsHashMap.containsKey(packedUnit.id)) {
@@ -116,21 +120,36 @@ public class Player {
                 unit = new ActiveUnit(packedUnit.x, packedUnit.y, packedUnit.type, packedUnit.id, gameScreenRef.bulletFactory);
                 enemyUnitsHashMap.put(unit.id, unit);
                 stage.addActor(unit);
-
             }
 
             unit.setTargetDestination(packedUnit.x, packedUnit.y);
             unit.lives = packedUnit.lives;
 
-            if (unit.targetId != packedUnit.targetId && myUnitsHashMap.containsKey(packedUnit.targetId)) {
-                unit.setTarget(myUnitsHashMap.get(packedUnit.targetId));
+            if (unit.targetId != packedUnit.targetId) {
+                if (packedUnit.targetId == PlayerValues.MY_BASE_ID) {
+                    unit.setTarget(gameScreenRef.myBase);
+                } else if (myUnitsHashMap.containsKey(packedUnit.targetId)) {
+                    unit.setTarget(myUnitsHashMap.get(packedUnit.targetId));
+                }
             }
 
             if (unit.lives <= 0) {
-                Log.info(" 1 his DEAD");
                 unit.setVisible(false);
                 unit.dispose();
                 enemyUnitsHashMap.remove(unit.id);
+            }
+        }
+
+
+        if (gameScreenRef.myBase.targetId != packet.myBase.targetId) {
+            if (enemyUnitsHashMap.containsKey(packet.myBase.targetId)) {
+                gameScreenRef.myBase.setTarget(enemyUnitsHashMap.get(packet.myBase.targetId));
+            }
+        }
+
+        if (gameScreenRef.enemyBase.targetId != packet.myBase.targetId) {
+            if (myUnitsHashMap.containsKey(packet.myBase.targetId)) {
+                gameScreenRef.enemyBase.setTarget(myUnitsHashMap.get(packet.enemyBase.targetId));
             }
         }
 

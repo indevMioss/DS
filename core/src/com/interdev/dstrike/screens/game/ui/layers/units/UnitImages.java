@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.IntMap;
-import com.interdev.dstrike.screens.game.UnitValues;
+import com.interdev.dstrike.screens.game.units.UnitValues;
 
 public class UnitImages {
 

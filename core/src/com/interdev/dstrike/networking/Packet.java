@@ -15,6 +15,7 @@ public class Packet {
 
     public static class PacketRoomReady {
         public int tickInterval;
+        public boolean baseAtTheTop;
     }
 
     public static class PacketRoomDestroyed {
@@ -22,10 +23,11 @@ public class Packet {
 
     public static class PacketGameUpdate {
         public int money;
+        public PackedBase myBase;
+        public PackedBase enemyBase;
         public PackedUnit[] Player1PackedUnits;
         public PackedUnit[] Player2PackedUnits;
     }
-
 
     public static class PacketWaveSpawned {
     }

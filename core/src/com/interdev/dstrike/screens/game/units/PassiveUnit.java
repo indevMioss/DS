@@ -1,4 +1,4 @@
-package com.interdev.dstrike.screens.game;
+package com.interdev.dstrike.screens.game.units;
 
 
 import com.badlogic.gdx.Gdx;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.interdev.dstrike.screens.Utils.GDXUtilily;
-import com.interdev.dstrike.screens.game.UnitValues;
+import com.interdev.dstrike.screens.game.units.UnitValues;
 import com.interdev.dstrike.screens.game.ui.UI;
 
 public class UnitIcon extends Actor {
