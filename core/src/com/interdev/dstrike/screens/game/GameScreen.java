@@ -103,16 +103,13 @@ public class GameScreen implements Screen, GestureDetector.GestureListener {
 
         bulletFactory = new BulletFactory(mainStage);
 
-        float basesOffset = 0.2f;
         myBase = new Base(false, bulletFactory);
-        myBase.setPosition(totalFieldWidth / 2, personalFieldHeight + personalFieldHeight * basesOffset);
-        myBase.setRotation(180);
+        myBase.setPosition(PlayerValues.PERSONALFIELD_WIDTH / 2, PlayerValues.PERSONALFIELD_HEIGHT + PlayerValues.PERSONALFIELD_HEIGHT * PlayerValues.BASE_Y_OFFSET);
         mainStage.addActor(myBase);
 
         enemyBase = new Base(true, bulletFactory);
-        enemyBase.setPosition(totalFieldWidth / 2, totalFieldHeight - personalFieldHeight * basesOffset);
+        enemyBase.setPosition(PlayerValues.PERSONALFIELD_WIDTH / 2, (PlayerValues.TOTAL_FIELD_HEIGHT - PlayerValues.PERSONALFIELD_HEIGHT) - PlayerValues.PERSONALFIELD_HEIGHT * PlayerValues.BASE_Y_OFFSET);
         mainStage.addActor(enemyBase);
-
 
         player = new Player(this);
 

@@ -12,6 +12,7 @@ public final class PlayerValues {
     public static final float INCOME_UPGRADE_PRICE = 100;
     public static final int START_MONEY = 4000;
 
+    public static final float BASE_Y_OFFSET = 0.2f;
     public static final int TOP_BASE_ID = 1;
     public static final int BOTTOM_BASE_ID = -1;
     public static int MY_BASE_ID; //initiates on client after a packet baseAtTheTop from server
@@ -20,7 +21,7 @@ public final class PlayerValues {
     public static final int BASE_START_LIVES = 5000;
     public static final int BASE_DAMAGE = 80;
     public static final int BASE_ATTACK_INTERVAL = 1000;
-    public static final int BASE_ATTACK_DISTANCE = BATTLEFIELD_WIDTH/4;
+    public static final int BASE_ATTACK_DISTANCE = BATTLEFIELD_WIDTH/3;
 
     public static final float PERSONAL_FIELD_BORDER = 0.01f;
 

@@ -111,6 +111,11 @@ public class ActiveUnit extends Actor implements Combative {
     }
 
     @Override
+    public boolean isAlive() {
+        return (lives > 0);
+    }
+
+    @Override
     public float getAttackInterval() {
         return atkInterval;
     }

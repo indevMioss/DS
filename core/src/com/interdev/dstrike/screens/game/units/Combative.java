@@ -5,6 +5,7 @@ public interface Combative {
     float getY();
     int getID();
     int getBulletType();
+    boolean isAlive();
     float getAttackInterval();
 
 }

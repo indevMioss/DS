@@ -147,8 +147,8 @@ public class Player {
             }
         }
 
-        if (gameScreenRef.enemyBase.targetId != packet.myBase.targetId) {
-            if (myUnitsHashMap.containsKey(packet.myBase.targetId)) {
+        if (gameScreenRef.enemyBase.targetId != packet.enemyBase.targetId) {
+            if (myUnitsHashMap.containsKey(packet.enemyBase.targetId)) {
                 gameScreenRef.enemyBase.setTarget(myUnitsHashMap.get(packet.enemyBase.targetId));
             }
         }

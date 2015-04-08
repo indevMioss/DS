@@ -26,6 +26,9 @@ public class LivesAnimation extends Actor {
     private float livesAnimWidth, livesAnimHeight;
     private float sideAnimWidth, sideAnimHeight;
 
+    private final float sideAnimsOffset = 0.6f;
+    private float actualOffset;
+
     public LivesAnimation(UI ui) {
         livesTextureArray = ui.textureAtlas.findRegions("lives1");
         livesLeftSideTextureArray = ui.textureAtlas.findRegions("lives_left_side");
@@ -35,10 +38,7 @@ public class LivesAnimation extends Actor {
         leftSideAnimation = new Animation(0.05f, livesLeftSideTextureArray, Animation.PlayMode.LOOP);
         rightSideAnimation = new Animation(0.05f, livesRightSideTextureArray, Animation.PlayMode.LOOP);
 
-        livesAnimWidth = livesAnimation.getKeyFrame(0).getRegionWidth();
-        livesAnimHeight = livesAnimation.getKeyFrame(0).getRegionHeight();
-        sideAnimWidth = leftSideAnimation.getKeyFrame(0).getRegionWidth();
-        sideAnimHeight = leftSideAnimation.getKeyFrame(0).getRegionHeight();
+        recalculateScalableValues();
 
     }
 
@@ -50,7 +50,18 @@ public class LivesAnimation extends Actor {
     public void setScale(float scale) {
         scaleX = scale;
         scaleY = scale;
+        recalculateScalableValues();
     }
+
+    private void recalculateScalableValues() {
+        livesAnimWidth = livesAnimation.getKeyFrame(0).getRegionWidth() * scaleX;
+        livesAnimHeight = livesAnimation.getKeyFrame(0).getRegionHeight() * scaleY;
+        sideAnimWidth = leftSideAnimation.getKeyFrame(0).getRegionWidth() * scaleX;
+        sideAnimHeight = leftSideAnimation.getKeyFrame(0).getRegionHeight() * scaleY;
+        actualOffset = sideAnimsOffset * sideAnimWidth * scaleX;
+
+    }
+
 
     public void draw(float deltaTime, Batch batch) {
         elapsedTime += deltaTime;
@@ -59,18 +70,23 @@ public class LivesAnimation extends Actor {
         TextureRegion region = livesAnimation.getKeyFrame(elapsedTime);
         float myLivesLossPercent = 1 - Player.myLives / PlayerValues.BASE_START_LIVES;
         float enemyLivesLossPercent = 1 - Player.enemyLives / PlayerValues.BASE_START_LIVES;
-        int xStart = (int) (x + (livesAnimWidth * scaleX / 2) * myLivesLossPercent);
-        int xToEndDelta = (int) ((livesAnimWidth * scaleX) - (livesAnimWidth * scaleX / 2) * myLivesLossPercent - (livesAnimWidth * scaleX / 2) * enemyLivesLossPercent);
+        int xStart = (int) (x + (livesAnimWidth / 2) * myLivesLossPercent);
+        int xToEndDelta = (int) ((livesAnimWidth) - (livesAnimWidth / 2) * myLivesLossPercent - (livesAnimWidth / 2) * enemyLivesLossPercent);
         Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-        Gdx.gl.glScissor(xStart, (int) y, xToEndDelta, (int) (livesAnimHeight * scaleY));
+        Gdx.gl.glScissor(xStart, (int) y, xToEndDelta, (int) (livesAnimHeight));
         batch.begin();
-        batch.draw(region, x, y, livesAnimWidth * scaleX, livesAnimHeight * scaleY);
+        batch.draw(region, x, y, livesAnimWidth, livesAnimHeight);
         batch.end();
         Gdx.gl.glDisable(GL20.GL_SCISSOR_TEST);
         batch.begin();
 
-        batch.draw(leftSideAnimation.getKeyFrame(elapsedTime), xStart - sideAnimWidth * scaleX / 2, y + livesAnimHeight * scaleY / 2 - sideAnimHeight * scaleY / 2, sideAnimWidth * scaleX, sideAnimHeight * scaleY);
-        batch.draw(rightSideAnimation.getKeyFrame(elapsedTime), xStart + xToEndDelta - sideAnimWidth * scaleX / 2, y + livesAnimHeight * scaleY / 2 - sideAnimHeight * scaleY / 2, sideAnimWidth * scaleX, sideAnimHeight * scaleY);
+
+        float leftSideAnimX = Math.max(xStart - sideAnimWidth / 2, x + actualOffset - sideAnimWidth / 2);
+        float rightSideAnimX = Math.min(xStart + xToEndDelta - sideAnimWidth / 2, x + livesAnimWidth - actualOffset - sideAnimWidth / 2);
+
+
+        batch.draw(leftSideAnimation.getKeyFrame(elapsedTime), leftSideAnimX, y + livesAnimHeight / 2 - sideAnimHeight / 2, sideAnimWidth, sideAnimHeight);
+        batch.draw(rightSideAnimation.getKeyFrame(elapsedTime), rightSideAnimX, y + livesAnimHeight / 2 - sideAnimHeight / 2, sideAnimWidth, sideAnimHeight);
 
     }
 
